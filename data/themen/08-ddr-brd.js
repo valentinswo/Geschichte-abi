@@ -27,7 +27,7 @@ ZR.thema({
         '**Wahlen:** Einheitsliste der Nationalen Front, offene Stimmabgabe üblich, Ergebnisse um 99 % – Wahlfälschung 1989 nachgewiesen.',
         '**17. Juni 1953:** Auslöser Normerhöhung; aus Streiks werden Forderungen nach freien Wahlen; in über 700 Orten Proteste (in Sachsen u. a. Leipzig, Görlitz, Dresden); sowjetische Panzer schlagen den Aufstand nieder. Perspektivität des Erinnerns: in der DDR „faschistischer Putschversuch", in der BRD Feiertag („Tag der deutschen Einheit" bis 1990).',
         '**Mauerbau 13. August 1961:** sichert die Existenz der DDR, zwingt die Bevölkerung zum Arrangement; Schießbefehl, Hunderte Tote an der innerdeutschen Grenze und der Berliner Mauer.',
-        '**MfS:** zuletzt über 90.000 hauptamtliche und rund 189.000 inoffizielle Mitarbeiter (1989); „Zersetzung" als Methode gegen Oppositionelle; politische Haft (Bautzen II, Hohenschönhausen).',
+        '**MfS:** 1989 rund 91.000 hauptamtliche und rund 180.000 inoffizielle Mitarbeiter; „Zersetzung" als Methode gegen Oppositionelle; politische Haft (Bautzen II, Hohenschönhausen).',
         '**Oppositionsbewegung der 1980er:** Friedensbewegung („Schwerter zu Pflugscharen"), Umwelt- und Menschenrechtsgruppen, kirchliche Schutzräume, Umweltbibliothek.',
         '**Friedliche Revolution 1989** und Demokratisierung bis zur freien Volkskammerwahl 1990; heutige Erinnerungskultur (9. Oktober in Leipzig, Stasi-Unterlagen-Archiv, Gedenkstätten).'
       ]

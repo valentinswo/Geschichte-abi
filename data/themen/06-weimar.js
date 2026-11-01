@@ -106,7 +106,7 @@ ZR.thema({
     }
   ],
   zeitleiste: [
-    { jahr: '1918', text: '**9. November:** Ausrufung der Republik; 11. November Waffenstillstand' },
+    { jahr: '9.11.1918', text: '**9. November:** Ausrufung der Republik; 11. November Waffenstillstand' },
     { jahr: '1919', text: 'Spartakusaufstand; Wahl der Nationalversammlung mit **Frauenwahlrecht**; **Versailler Vertrag**; Weimarer Verfassung' },
     { jahr: '1920', text: '**Kapp-Lüttwitz-Putsch**; Weimarer Koalition verliert die Mehrheit' },
     { jahr: '1922', text: 'Ermordung Walther Rathenaus; Vertrag von Rapallo' },

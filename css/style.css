@@ -353,3 +353,9 @@ textarea.answer { width: 100%; min-height: 150px; padding: .8rem; border-radius:
 }
 .tl-stem { position: absolute; width: 1px; background: var(--line); }
 .tl-pin { position: absolute; top: 155px; width: 13px; height: 13px; margin-left: -6px; border-radius: 50%; background: var(--c); border: 2px solid var(--bg); box-shadow: 0 0 0 1px var(--c); z-index: 2; }
+.pill.hefter { background: #e8f7e4; color: #2b7a1f; text-transform: none; letter-spacing: 0; font-size: .72rem; vertical-align: middle; margin-left: .35rem; font-family: var(--font); }
+:root[data-theme="dark"] .pill.hefter { background: #1d3320; color: #8fe08a; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pill.hefter { background: #1d3320; color: #8fe08a; } }
+.checklist { list-style: none; padding: 0; margin: .3rem 0 1rem; display: grid; gap: .35rem; }
+.checklist label { cursor: pointer; }
+.checklist input { width: 18px; height: 18px; vertical-align: -3px; accent-color: var(--good); margin-right: .3rem; }
