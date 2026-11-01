@@ -25,7 +25,7 @@ for (const s of scripts) {
 }
 
 // Nicht eingebundene Themen-Dateien finden
-for (const dir of ['data/themen', 'data/methoden']) {
+for (const dir of ['data/themen', 'data/methoden', 'data/hefter']) {
   for (const f of fs.readdirSync(path.join(root, dir))) {
     if (f.endsWith('.js') && !f.startsWith('_') && !scripts.includes(`${dir}/${f}`)) errors.push(`${dir}/${f} ist nicht in index.html eingebunden.`);
   }
@@ -33,6 +33,7 @@ for (const dir of ['data/themen', 'data/methoden']) {
 
 const ZR = ctx.ZR;
 if (!ZR) { console.error('ZR nicht gefunden – registry.js fehlt?'); process.exit(1); }
+(ZR.fehler || []).forEach(f => errors.push(f));
 const personIds = new Set();
 ZR.personen.forEach(p => {
   ['id', 'name', 'lebensdaten', 'geboren', 'rolle', 'ideologie', 'ziele', 'bedeutung'].forEach(k => { if (!p[k]) errors.push(`Person ${p.id || p.name}: Feld "${k}" fehlt.`); });

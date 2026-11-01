@@ -12,6 +12,8 @@ data/
   themen/01-….js         ← ein Hauptthema pro Datei (= ein Reiter)
   themen/_vorlage.js     ← Vorlage für neue Themen
   methoden/methoden.js   ← Karikaturen, Bildquellen, Urteilen usw.
+  hefter/*.js            ← Ergänzungen aus dem eigenen Hefter (mit „📓 Hefter"-Markierung)
+  hefter/pruefung.js     ← Prüfungs-Checkliste im Abi-Training
 ```
 
 ## Text formatieren
@@ -19,6 +21,20 @@ data/
 - `**fett**` → **fett**, `*kursiv*` → *kursiv*
 - Texte stehen in einfachen Anführungszeichen `'…'`. Ein Apostroph im Text wird mit `’` (typografisch) geschrieben oder mit `\'` maskiert.
 - Deutsche Anführungszeichen „…" kannst du ganz normal verwenden.
+
+## Eigene Notizen ergänzen (Hefter)
+
+Statt die Themen-Dateien zu ändern, kannst du Ergänzungen in `data/hefter/` ablegen:
+
+```js
+ZR.ergaenze('weimar', {
+  kapitel: [{ titel: 'Mein neues Kapitel', nach: 'Krisenjahre 1919–1923', punkte: ['…'] }],
+  zeitleiste: [{ jahr: '1923', text: '…' }],
+  quiz: [{ typ: 'wf', aussage: '…', richtig: true }]
+});
+```
+
+`nach`/`vor` geben an, hinter bzw. vor welchem Kapitel (Titel) eingefügt wird. Neue Dateien in `index.html` im Block „Ergänzungen aus dem eigenen Hefter" eintragen. Alles daraus erscheint in der App mit „📓 Hefter".
 
 ## Ein neues Thema anlegen
 

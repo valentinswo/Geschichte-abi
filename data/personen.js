@@ -282,5 +282,150 @@
     stationen: ['9. Mai 1950 Schuman-Erklärung', '1951 Gründung der EGKS', '1958–1960 erster Präsident des Europäischen Parlaments'],
     bedeutung: 'Der 9. Mai ist heute „Europatag".',
     themen: ['europa-einheit']
+  },
+  /* ---------- Ergänzt nach den Hefter-Themen ---------- */
+  {
+    id: 'metternich', name: 'Klemens von Metternich', lebensdaten: '1773–1859', geboren: '1773-05-15',
+    geboren_text: '15. Mai 1773', geburtsort: 'Koblenz', gestorben_text: '11. Juni 1859', sterbeort: 'Wien',
+    rolle: 'Österreichischer Außenminister und Staatskanzler (1809–1848), Organisator des Wiener Kongresses',
+    ideologie: 'Konservativ, Verfechter der monarchischen Legitimität und des europäischen Gleichgewichts; Gegner von Liberalismus und Nationalismus.',
+    ziele: 'Restauration der vorrevolutionären Ordnung, Unterdrückung revolutionärer und nationaler Bewegungen, Stabilität durch das „Konzert der Mächte".',
+    stationen: ['1814/15 Leitung des Wiener Kongresses', '1819 Karlsbader Beschlüsse (Zensur, Verbot der Burschenschaften)', '1832 Verschärfung nach dem Hambacher Fest', '13. März 1848 Sturz in der Wiener Märzrevolution, Flucht nach England'],
+    bedeutung: 'Symbolfigur der Restaurationszeit („System Metternich"); prägte Europa zwischen 1815 und 1848.',
+    themen: ['revolution-1848']
+  },
+  {
+    id: 'friedrich-wilhelm-4', name: 'Friedrich Wilhelm IV.', lebensdaten: '1795–1861', geboren: '1795-10-15',
+    geboren_text: '15. Oktober 1795', geburtsort: 'Berlin', gestorben_text: '2. Januar 1861', sterbeort: 'Potsdam (Schloss Sanssouci)',
+    rolle: 'König von Preußen (1840–1861)',
+    ideologie: 'Romantisch-konservativ, überzeugt vom Gottesgnadentum; lehnte Volkssouveränität ab.',
+    ziele: 'Bewahrung der monarchischen Ordnung; deutsche Einheit nur durch Einigung der Fürsten, nicht durch das Volk.',
+    stationen: ['18./19. März 1848 Barrikadenkämpfe in Berlin; Verneigung vor den „Märzgefallenen"', 'Dezember 1848 oktroyierte (aufgezwungene) Verfassung für Preußen', '3. April 1849 Ablehnung der Kaiserkrone der Paulskirche („Reif aus Dreck und Letten")', '1849/50 Dreiklassenwahlrecht in Preußen', 'ab 1858 regiert sein Bruder Wilhelm als Regent'],
+    bedeutung: 'Seine Ablehnung der Kaiserkrone besiegelte das Scheitern der Revolution von 1848/49.',
+    themen: ['revolution-1848']
+  },
+  {
+    id: 'blum', name: 'Robert Blum', lebensdaten: '1807–1848', geboren: '1807-11-10',
+    geboren_text: '10. November 1807', geburtsort: 'Köln', gestorben_text: '9. November 1848', sterbeort: 'Wien (standrechtlich erschossen)',
+    rolle: 'Leipziger Publizist, Verleger und Politiker; Abgeordneter der Frankfurter Nationalversammlung',
+    ideologie: 'Demokrat und Republikaner; trat für Volkssouveränität, Grundrechte und religiöse Toleranz ein.',
+    ziele: 'Ein freies, demokratisches und geeintes Deutschland.',
+    stationen: ['Theatersekretär und Publizist in Leipzig, Gründer politischer Vereine', '1848 Führer der Linken in der Paulskirche', 'Oktober 1848 Reise ins aufständische Wien', '9. November 1848 trotz Abgeordnetenimmunität hingerichtet'],
+    bedeutung: 'Märtyrer der Revolution und Symbol der Gegenrevolution – zugleich wichtiger Sachsen-Bezug für 1848/49.',
+    zitat: 'Ich sterbe für die deutsche Freiheit, für die ich gekämpft habe.',
+    themen: ['revolution-1848']
+  },
+  {
+    id: 'wilhelm1', name: 'Wilhelm I.', lebensdaten: '1797–1888', geboren: '1797-03-22',
+    geboren_text: '22. März 1797', geburtsort: 'Berlin', gestorben_text: '9. März 1888', sterbeort: 'Berlin',
+    rolle: 'König von Preußen (1861–1888), erster Deutscher Kaiser (1871–1888)',
+    ideologie: 'Konservativ, militärisch geprägt, Gottesgnadentum.',
+    ziele: 'Stärkung der Armee (Heeresreform), Sicherung der monarchischen Macht gegen das Parlament.',
+    stationen: ['1848 als „Kartätschenprinz" gegen die Revolution, kurzzeitig im Exil in England', '1858 Regent, 1861 König', '1862 Ernennung Bismarcks im Verfassungskonflikt', '18. Januar 1871 Kaiserproklamation in Versailles', '1878 zwei Attentate → Anlass für das Sozialistengesetz'],
+    bedeutung: 'Überließ die Politik weitgehend Bismarck; Symbolfigur des Kaiserreichs.',
+    themen: ['nation-kaiserreich']
+  },
+  {
+    id: 'ludendorff', name: 'Erich Ludendorff', lebensdaten: '1865–1937', geboren: '1865-04-09',
+    geboren_text: '9. April 1865', geburtsort: 'Kruszewnia bei Posen', gestorben_text: '20. Dezember 1937', sterbeort: 'Tutzing',
+    rolle: 'General, Erster Generalquartiermeister der Obersten Heeresleitung (1916–1918)',
+    ideologie: 'Militarist, völkisch-nationalistisch, später radikal antisemitisch.',
+    ziele: 'Siegfrieden, totale Mobilisierung von Volk und Wirtschaft für den Krieg; nach 1918 Kampf gegen die Republik.',
+    stationen: ['1914 mit Hindenburg Sieg bei Tannenberg', '1916–1918 faktische Militärdiktatur der 3. OHL', 'September 1918 Forderung nach Waffenstillstand', 'Mitverbreiter der Dolchstoßlegende', '1923 Teilnahme am Hitlerputsch'],
+    bedeutung: 'Verkörperte den Anspruch des Militärs auf politische Führung und schob die Verantwortung für die Niederlage den Demokraten zu.',
+    themen: ['weltkriege', 'weimar']
+  },
+  {
+    id: 'scheidemann', name: 'Philipp Scheidemann', lebensdaten: '1865–1939', geboren: '1865-07-26',
+    geboren_text: '26. Juli 1865', geburtsort: 'Kassel', gestorben_text: '29. November 1939', sterbeort: 'Kopenhagen (Exil)',
+    rolle: 'SPD-Politiker, rief am 9. November 1918 die Republik aus; erster Reichsministerpräsident (1919)',
+    ideologie: 'Gemäßigter Sozialdemokrat (MSPD), parlamentarische Demokratie.',
+    ziele: 'Verhinderung einer Räterepublik, demokratische Republik, gerechter Frieden.',
+    stationen: ['9. November 1918 Ausrufung der „Deutschen Republik" vom Reichstagsbalkon', 'Februar–Juni 1919 Reichsministerpräsident', 'Juni 1919 Rücktritt aus Protest gegen den Versailler Vertrag', '1922 Blausäure-Attentat von Rechtsextremen überlebt', '1933 Flucht ins Exil'],
+    bedeutung: 'Gesicht der Republikgründung; seine Ablehnung von Versailles zeigt das Dilemma der Demokraten.',
+    zitat: 'Welche Hand müsste nicht verdorren, die sich und uns in diese Fesseln legt? (über den Versailler Vertrag, 1919)',
+    themen: ['weimar']
+  },
+  {
+    id: 'liebknecht', name: 'Karl Liebknecht', lebensdaten: '1871–1919', geboren: '1871-08-13',
+    geboren_text: '13. August 1871', geburtsort: 'Leipzig', gestorben_text: '15. Januar 1919', sterbeort: 'Berlin (ermordet)',
+    rolle: 'Sozialistischer Politiker, Mitbegründer von Spartakusbund und KPD',
+    ideologie: 'Revolutionärer Marxist, Antimilitarist.',
+    ziele: 'Sozialistische Räterepublik, Ende des Krieges, Überwindung des Kapitalismus.',
+    stationen: ['Sohn des SPD-Mitgründers Wilhelm Liebknecht', '2. Dezember 1914 als einziger Reichstagsabgeordneter gegen die Kriegskredite', '1916–1918 in Haft', '9. November 1918 Ausrufung der „freien sozialistischen Republik"', '15. Januar 1919 mit Rosa Luxemburg von Freikorpsoffizieren ermordet'],
+    bedeutung: 'Symbol der radikalen Linken und der gespaltenen Arbeiterbewegung; gebürtiger Leipziger.',
+    themen: ['weimar']
+  },
+  {
+    id: 'bruening', name: 'Heinrich Brüning', lebensdaten: '1885–1970', geboren: '1885-11-26',
+    geboren_text: '26. November 1885', geburtsort: 'Münster', gestorben_text: '30. März 1970', sterbeort: 'Norwich (Vermont, USA)',
+    rolle: 'Zentrumspolitiker, Reichskanzler (März 1930 – Mai 1932) – erstes Präsidialkabinett',
+    ideologie: 'Katholisch-konservativ, Haushaltsdisziplin; eher autoritäres Staatsverständnis.',
+    ziele: 'Ausgeglichener Haushalt, Beendigung der Reparationen, Stärkung der Exportwirtschaft – notfalls ohne den Reichstag.',
+    stationen: ['30. März 1930 Reichskanzler', 'Regieren mit Notverordnungen nach Art. 48, Deflationspolitik', 'April 1932 SA-Verbot', '30. Mai 1932 Entlassung durch Hindenburg', '1934 Emigration in die USA, Professor in Harvard'],
+    bedeutung: 'Mit ihm begann die Zeit der Präsidialkabinette; seine Sparpolitik verschärfte die Krise.',
+    urteil: 'Klassische Urteilsfrage: Totengräber der Republik oder Opfer der Umstände?',
+    themen: ['weimar']
+  },
+  {
+    id: 'papen', name: 'Franz von Papen', lebensdaten: '1879–1969', geboren: '1879-10-29',
+    geboren_text: '29. Oktober 1879', geburtsort: 'Werl', gestorben_text: '2. Mai 1969', sterbeort: 'Obersasbach (Baden)',
+    rolle: 'Reichskanzler (Juni – November 1932), Vizekanzler unter Hitler (1933/34)',
+    ideologie: 'Katholisch-konservativ, monarchistisch, antiparlamentarisch.',
+    ziele: 'Autoritärer „Neuer Staat" ohne Parteienherrschaft; „Einrahmung" und Nutzung Hitlers.',
+    stationen: ['Offizier, im Ersten Weltkrieg Militärattaché und Stabsoffizier', 'Juni 1932 „Kabinett der Barone", Aufhebung des SA-Verbots', '20. Juli 1932 „Preußenschlag"', 'Januar 1933 Verhandlungen mit Hitler, Sturz Schleichers', '1933/34 Vizekanzler, dann Botschafter in Wien und Ankara; 1946 in Nürnberg freigesprochen'],
+    bedeutung: 'Schlüsselfigur der Machtübertragung – er glaubte, Hitler kontrollieren zu können („Wir haben ihn uns engagiert").',
+    themen: ['weimar']
+  },
+  {
+    id: 'schleicher', name: 'Kurt von Schleicher', lebensdaten: '1882–1934', geboren: '1882-04-07',
+    geboren_text: '7. April 1882', geburtsort: 'Brandenburg an der Havel', gestorben_text: '30. Juni 1934', sterbeort: 'Neubabelsberg (ermordet)',
+    rolle: 'General, Reichswehrminister und letzter Reichskanzler der Weimarer Republik (Dezember 1932 – Januar 1933)',
+    ideologie: 'Konservativ, autoritär; Politiker im Hintergrund der Reichswehr.',
+    ziele: 'Stabile autoritäre Regierung mit Rückhalt der Reichswehr; Einbindung oder Spaltung der NSDAP.',
+    stationen: ['Im Ersten Weltkrieg Mitglied der OHL, enger Mitarbeiter Groeners', 'Drahtzieher in der Kamarilla: beteiligt am Sturz Müllers (1930) und Brünings (1932), an der Ernennung Papens', 'Dezember 1932 Reichskanzler, „Querfront"-Pläne mit Gewerkschaften und Gregor Strasser', 'Januar 1933 Rücktritt, vergeblicher Versuch, Hitler zu verhindern', '30. Juni 1934 im „Röhm-Putsch" ermordet'],
+    bedeutung: 'Verkörpert die Intrigen der Präsidialzeit, die Hitler den Weg ebneten.',
+    themen: ['weimar']
+  },
+  {
+    id: 'galen', name: 'Clemens August Graf von Galen', lebensdaten: '1878–1946', geboren: '1878-03-16',
+    geboren_text: '16. März 1878', geburtsort: 'Dinklage (Oldenburger Land)', gestorben_text: '22. März 1946', sterbeort: 'Münster',
+    rolle: 'Bischof von Münster (ab 1933), Kardinal (1946)',
+    ideologie: 'Katholisch-konservativ, national gesinnt; kompromissloser Verteidiger kirchlicher Rechte und des Lebensrechts.',
+    ziele: 'Schutz der Kirche, Verteidigung christlicher Werte und der Unantastbarkeit menschlichen Lebens.',
+    stationen: ['1933 Bischof von Münster', 'Juli/August 1941 drei Predigten gegen Klosterbeschlagnahmungen und die „Euthanasie"-Morde (3. August 1941)', 'Die Predigten werden als Flugblätter verbreitet – Aktion T4 wird im August 1941 offiziell gestoppt', 'Wegen seiner Popularität nicht verhaftet („Löwe von Münster")', '2005 seliggesprochen'],
+    bedeutung: 'Bekanntestes Beispiel kirchlichen Protests; zeigt, dass öffentlicher Widerspruch Wirkung haben konnte.',
+    themen: ['ns-diktatur']
+  },
+  {
+    id: 'mielke', name: 'Erich Mielke', lebensdaten: '1907–2000', geboren: '1907-12-28',
+    geboren_text: '28. Dezember 1907', geburtsort: 'Berlin', gestorben_text: '21. Mai 2000', sterbeort: 'Berlin',
+    rolle: 'Minister für Staatssicherheit der DDR (1957–1989)',
+    ideologie: 'Überzeugter Kommunist (Marxismus-Leninismus), absolute Loyalität zur Partei.',
+    ziele: 'Totale Kontrolle der Gesellschaft, Ausschaltung jeder Opposition, Sicherung der SED-Herrschaft.',
+    stationen: ['1931 Beteiligung am Mord an zwei Berliner Polizisten, Flucht in die Sowjetunion', '1950 stellvertretender Minister, 1957 Minister für Staatssicherheit', 'Ausbau des MfS zum riesigen Überwachungsapparat', '1976 Mitglied des Politbüros', '13. November 1989 vor der Volkskammer: „Ich liebe doch alle – alle Menschen …"', '1993 wegen der Polizistenmorde von 1931 verurteilt'],
+    bedeutung: 'Gesicht der Stasi und des Überwachungsstaats DDR.',
+    themen: ['ddr-brd']
+  },
+  {
+    id: 'dutschke', name: 'Rudi Dutschke', lebensdaten: '1940–1979', geboren: '1940-03-07',
+    geboren_text: '7. März 1940', geburtsort: 'Schönefeld bei Luckenwalde (Brandenburg)', gestorben_text: '24. Dezember 1979', sterbeort: 'Aarhus (Dänemark)',
+    rolle: 'Soziologiestudent, Wortführer des SDS und der Studentenbewegung',
+    ideologie: 'Undogmatischer Sozialist („Neue Linke"), antiautoritär, christlich geprägt.',
+    ziele: 'Demokratisierung von Hochschule und Gesellschaft, Kampf gegen Vietnamkrieg und Notstandsgesetze; „langer Marsch durch die Institutionen".',
+    stationen: ['Aufgewachsen in der DDR, Verweigerung des Wehrdienstes, 1961 kurz vor dem Mauerbau Wechsel nach West-Berlin', 'Ab 1965 führende Figur im SDS', '11. April 1968 von einem Rechtsextremisten angeschossen → Osterunruhen', 'Lange Rehabilitation, Engagement für die Umweltbewegung (Gründung der Grünen)', 'Tod 1979 an den Spätfolgen des Attentats'],
+    bedeutung: 'Symbolfigur der 68er-Bewegung.',
+    themen: ['ddr-brd']
+  },
+  {
+    id: 'meinhof', name: 'Ulrike Meinhof', lebensdaten: '1934–1976', geboren: '1934-10-07',
+    geboren_text: '7. Oktober 1934', geburtsort: 'Oldenburg', gestorben_text: '9. Mai 1976', sterbeort: 'Stuttgart-Stammheim (Gefängnis, Suizid)',
+    rolle: 'Journalistin (Kolumnistin der Zeitschrift „konkret"), Mitbegründerin der RAF',
+    ideologie: 'Linksradikal, antiimperialistisch; ab 1970 Befürworterin des bewaffneten Kampfes.',
+    ziele: 'Umsturz der Bundesrepublik durch „Stadtguerilla".',
+    stationen: ['1959–1969 politische Journalistin', '14. Mai 1970 Beteiligung an der Befreiung Andreas Baaders – Weg in den Untergrund', '1972 Verhaftung', '1974 Verurteilung, ab 1975 Angeklagte im Stammheim-Prozess', '9. Mai 1976 Tod in der Zelle'],
+    bedeutung: 'Symbol für die Radikalisierung eines Teils der Protestbewegung bis zum Terrorismus.',
+    urteil: 'Achtung: Täterbiografien nie heroisieren – Opfer der RAF (34 Tote) mitdenken.',
+    themen: ['ddr-brd']
   }
 ].forEach(p => ZR.person(p));

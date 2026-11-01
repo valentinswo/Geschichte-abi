@@ -8,6 +8,7 @@
   const findPerson = id => ZR.personen.find(p => p.id === id);
   const findMethode = id => ZR.methoden.find(m => m.id === id);
   const paras = arr => (arr || []).map(p => `<p>${md(p)}</p>`).join('');
+  const HB = o => o && o.hefter ? ' <span class="pill hefter" title="Aus deinem Hefter">📓 Hefter</span>' : '';
   const readBtn = label => TTS.supported ? `<button class="read-btn" data-read="${esc(label)}">🔊 Vorlesen</button>` : '';
 
   const App = {
@@ -187,16 +188,16 @@
     switch (tab) {
       case 'lernen': return `
         <section class="prose" data-readable="Überblick: ${esc(t.titel)}"><div class="section-title"><h2 style="margin-top:0">Überblick</h2>${readBtn('Überblick: ' + t.titel)}</div>${paras(t.einleitung)}</section>
-        ${(t.kapitel || []).map(k => `<section class="prose" data-readable="${esc(k.titel)}"><div class="section-title"><h2>${esc(k.titel)}</h2>${readBtn(k.titel)}</div>
+        ${(t.kapitel || []).map(k => `<section class="prose" data-readable="${esc(k.titel)}"><div class="section-title"><h2>${esc(k.titel)}${HB(k)}</h2>${readBtn(k.titel)}</div>
           ${paras(k.text)}${k.punkte ? `<ul class="points">${k.punkte.map(p => `<li>${md(p)}</li>`).join('')}</ul>` : ''}
           ${k.merke ? `<div class="callout"><h3>Merke</h3>${md(k.merke)}</div>` : ''}</section>`).join('')}
         ${t.abi ? `<div class="callout abi"><h3>🎓 Abi-Tipps zu diesem Thema</h3><ul>${t.abi.map(a => `<li>${md(a)}</li>`).join('')}</ul></div>` : ''}
         ${t.notizen ? `<div class="callout"><h3>📓 Aus dem Unterricht</h3>${paras(t.notizen)}</div>` : ''}
         <div class="row" style="margin-top:1.5rem"><a class="btn" href="#/thema/${t.id}/schema">Weiter zu den Fließschemata →</a><a class="btn primary" href="#/thema/${t.id}/quiz">Zum Quiz</a></div>`;
       case 'schema': return (t.schemata || []).map(schemaHTML).join('') || '<p class="muted">Noch keine Schemata.</p>';
-      case 'zeitleiste': return `<ul class="mini-tl" style="--c:${t.farbe}">${(t.zeitleiste || []).map(e => `<li><span class="y">${esc(e.jahr)}</span><span>${md(e.text)}</span></li>`).join('')}</ul>`;
+      case 'zeitleiste': return `<ul class="mini-tl" style="--c:${t.farbe}">${(t.zeitleiste || []).map(e => `<li><span class="y">${esc(e.jahr)}</span><span>${md(e.text)}${e.hefter ? ' <small title="Aus deinem Hefter">📓</small>' : ''}</span></li>`).join('')}</ul>`;
       case 'begriffe': return `<p class="muted">Tippe einen Begriff an, um die Erklärung zu sehen. Alle Begriffe gibt es auch als Karteikarten.</p>
-        <div class="terms">${(t.begriffe || []).map(b => `<details class="term"><summary>${esc(b.begriff)}</summary><p>${md(b.erklaerung)}</p></details>`).join('')}</div>`;
+        <div class="terms">${(t.begriffe || []).map(b => `<details class="term"><summary>${esc(b.begriff)}${b.hefter ? ' 📓' : ''}</summary><p>${md(b.erklaerung)}</p></details>`).join('')}</div>`;
       case 'personen': return `<div class="grid">${(t.personen || []).map(findPerson).filter(Boolean).map(personCard).join('')}</div>`;
       case 'karten': return `<div id="fcBox"></div>`;
       case 'quiz': return `<p class="muted">Abschluss-Quiz mit ${(t.quiz || []).length} Aufgaben. Dein bestes Ergebnis wird auf diesem Gerät gespeichert.</p><div id="quizBox"></div>`;
@@ -204,14 +205,15 @@
     return '';
   }
   function schemaHTML(s) {
-    if (s.typ === 'ursache') return `<h2>${esc(s.titel)}</h2>${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
+    const H = `<h2>${esc(s.titel)}${HB(s)}</h2>`;
+    if (s.typ === 'ursache') return `${H}${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
       <div class="causal"><div class="col"><h3>Ursachen / Voraussetzungen</h3>${s.ursachen.map(u => `<div class="box">${md(u)}</div>`).join('')}</div>
       <div class="arrow">➜</div><div class="event">${md(s.ereignis)}</div><div class="arrow">➜</div>
       <div class="col"><h3>Folgen</h3>${s.folgen.map(u => `<div class="box">${md(u)}</div>`).join('')}</div></div>`;
-    if (s.typ === 'vergleich') return `<h2>${esc(s.titel)}</h2>${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
+    if (s.typ === 'vergleich') return `${H}${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
       <div class="table-scroll"><table class="compare"><thead><tr>${s.spalten.map(c => `<th>${esc(c)}</th>`).join('')}</tr></thead>
       <tbody>${s.zeilen.map(r => `<tr>${r.map((c, i) => i === 0 ? `<th>${md(c)}</th>` : `<td>${md(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
-    return `<h2>${esc(s.titel)}</h2>${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
+    return `${H}${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
       <div class="flow ${s.horizontal ? 'h' : ''}">${s.schritte.map((st, i) => `${i ? '<div class="flow-arrow" aria-hidden="true">↓</div>' : ''}<div class="flow-step ${st.hl ? 'hl' : ''}"><b>${md(st.t)}</b>${st.d ? `<span>${md(st.d)}</span>` : ''}</div>`).join('')}</div>`;
   }
   function afterThema(t, tab) {
@@ -274,7 +276,7 @@
       ${m.schritte ? `<h2>Schritt für Schritt</h2><ol class="steps">${m.schritte.map(s => `<li><b>${md(s.t)}</b><span>${md(s.d)}</span></li>`).join('')}</ol>` : ''}
       ${(m.bloecke || []).map(b => b.tabelle ? `<h2>${esc(b.titel)}</h2>${b.text ? `<p>${md(b.text)}</p>` : ''}<div class="table-scroll"><table class="compare op-table"><thead><tr>${b.tabelle.kopf.map(h => `<th>${esc(h)}</th>`).join('')}</tr></thead><tbody>${b.tabelle.zeilen.map(r => `<tr>${r.map(c => `<td>${md(c)}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`
         : b.schema ? schemaHTML(b.schema)
-        : `<section class="prose"><h2>${esc(b.titel)}</h2>${paras(b.text)}${b.punkte ? `<ul class="points">${b.punkte.map(p => `<li>${md(p)}</li>`).join('')}</ul>` : ''}</section>`).join('')}
+        : `<section class="prose"><h2>${esc(b.titel)}${HB(b)}</h2>${paras(b.text)}${b.punkte ? `<ul class="points">${b.punkte.map(p => `<li>${md(p)}</li>`).join('')}</ul>` : ''}</section>`).join('')}
       ${m.formulierungen ? `<div class="callout"><h3>✍️ Formulierungshilfen</h3><ul>${m.formulierungen.map(f => `<li>${md(f)}</li>`).join('')}</ul></div>` : ''}
       ${m.fehler ? `<div class="callout abi"><h3>⚠️ Typische Fehler</h3><ul>${m.fehler.map(f => `<li>${md(f)}</li>`).join('')}</ul></div>` : ''}`;
     if (tab === 'beispiel' && m.beispiel) body = `<div class="example-box"><div class="label">Material</div><p><b>${md(m.beispiel.titel)}</b></p>${paras(m.beispiel.material)}${m.beispiel.link ? `<p class="small"><a href="${esc(m.beispiel.link)}" target="_blank" rel="noopener">→ Original ansehen (externer Link)</a></p>` : ''}</div>
@@ -294,9 +296,33 @@
         <a class="card theme-card" href="#/abi/offen" style="--c:#7b5ea7"><h3>✍️ Offene Abi-Fragen</h3><p>Nur Freitext-Aufgaben mit KI-Korrektur – Erläutern, Beurteilen, Erörtern.</p></a>
         <a class="card theme-card" href="#/abi/begriffe" style="--c:#d4a017"><h3>🃏 Alle Begriffe</h3><p>Karteikarten aus allen Themen.</p></a>
         <a class="card theme-card" href="#/abi/personen" style="--c:#2e7d4f"><h3>👤 Personen-Karten</h3><p>Wer war wer? Lebensdaten und Bedeutung.</p></a>
-      </div>${footer()}`;
+      </div>${checklistHTML()}${footer()}`;
     return `<a href="#/abi" class="small">← Abi-Training</a><h1>${{ mix: 'Mix-Quiz', zeitstrahl: 'Zeitstrahl-Profi', offen: 'Offene Abi-Fragen', begriffe: 'Alle Begriffe', personen: 'Personen-Karten' }[mode] || 'Training'}</h1><div id="quizBox"></div>${footer()}`;
   }
+  /* Prüfungs-Checkliste (Inhalte aus data/hefter/pruefung.js) */
+  function checklistHTML() {
+    const P = ZR.pruefung; if (!P) return '';
+    let done = {}; try { done = JSON.parse(localStorage.getItem('zr-check') || '{}'); } catch (e) {}
+    const total = P.bereiche.reduce((n, b) => n + b.punkte.length, 0);
+    const ok = Object.values(done).filter(Boolean).length;
+    return `<h2>📋 Prüfungs-Checkliste${HB({ hefter: true })}</h2>
+      <div class="card"><p class="muted" style="margin-top:0">${md(P.intro)}</p>
+      ${P.format ? `<div class="callout"><h3>Ablauf der Prüfung (aus deinen Notizen)</h3><ul>${P.format.map(f => `<li>${md(f)}</li>`).join('')}</ul></div>` : ''}
+      <p><b id="chkCount">${ok}/${total}</b> Themen abgehakt – hake ab, was du sicher erklären kannst.</p>
+      ${P.bereiche.map(b => `<h3>${esc(b.titel)}</h3><ul class="checklist">${b.punkte.map(pt => {
+        const key = b.titel + '|' + pt.t;
+        return `<li><label><input type="checkbox" data-key="${esc(key)}" ${done[key] ? 'checked' : ''}> ${md(pt.t)}</label>${pt.thema ? ` <a class="small" href="#/thema/${pt.thema}${pt.tab ? '/' + pt.tab : ''}">ansehen →</a>` : ''}</li>`;
+      }).join('')}</ul>`).join('')}</div>`;
+  }
+  document.addEventListener('change', e => {
+    const c = e.target.closest('.checklist input[type=checkbox]'); if (!c) return;
+    let done = {}; try { done = JSON.parse(localStorage.getItem('zr-check') || '{}'); } catch (er) {}
+    done[c.dataset.key] = c.checked;
+    try { localStorage.setItem('zr-check', JSON.stringify(done)); } catch (er) {}
+    const el = document.getElementById('chkCount');
+    if (el) el.textContent = Object.values(done).filter(Boolean).length + '/' + document.querySelectorAll('.checklist input').length;
+  });
+
   function afterAbi(mode) {
     const box = document.getElementById('quizBox'); if (!box) return;
     const all = T().flatMap(t => t.quiz || []);
