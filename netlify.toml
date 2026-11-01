@@ -1,0 +1,31 @@
+# Netlify-Konfiguration – kein Build nötig, die App ist reines HTML/CSS/JS.
+[build]
+  publish = "."
+  functions = "netlify/functions"
+  command = "node scripts/validate.js"
+
+[functions]
+  node_bundler = "esbuild"
+
+# Kurzer Link zur QR-Seite: deine-app.netlify.app/qr
+[[redirects]]
+  from = "/qr"
+  to = "/qr.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/data/*"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

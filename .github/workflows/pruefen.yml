@@ -1,0 +1,21 @@
+name: Inhalte prüfen
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  pruefen:
+    name: Inhalte prüfen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Inhaltsdateien validieren
+        run: node scripts/validate.js
+      - name: JavaScript-Syntax prüfen
+        run: |
+          for f in js/*.js sw.js netlify/functions/*.mjs; do node --check "$f"; done
