@@ -31,82 +31,108 @@
   }
 
   /* ---------- Reiterleiste ---------- */
+  const NAV = [['#/', 'Start'], ['#/themen', 'Themen'], ['#/zeitstrahl', 'Zeitstrahl'], ['#/methoden', 'Methoden'], ['#/personen', 'Personen'], ['#/abi', 'Abi-Training']];
   function renderTabs(route) {
-    const items = [
-      ['#/', 'Start'], ['#/zeitstrahl', 'Zeitstrahl'], 'sep',
-      ...T().map(t => [`#/thema/${t.id}`, t.kurz || t.titel]), 'sep',
-      ['#/methoden', 'Methoden & Urteilen'], ['#/personen', 'Persönlichkeiten'], ['#/abi', 'Abi-Training'], ['#/installieren', 'App installieren']
-    ];
     const nav = document.getElementById('tabs');
-    nav.innerHTML = items.map(it => it === 'sep' ? '<span class="tab-sep" aria-hidden="true"></span>' :
-      `<a class="tab" href="${it[0]}" ${isActive(it[0], route) ? 'aria-current="page"' : ''}>${esc(it[1])}</a>`).join('');
+    nav.innerHTML = NAV.map(it => `<a class="tab" href="${it[0]}" ${isActive(it[0], route) ? 'aria-current="page"' : ''}>${esc(it[1])}</a>`).join('');
     const act = nav.querySelector('[aria-current]');
     if (act) act.scrollIntoView({ inline: 'center', block: 'nearest' });
   }
   function isActive(href, route) {
     const r = '#/' + route.join('/');
-    if (href === '#/') return route[0] === '' || route.length === 0;
+    if (href === '#/') return route[0] === '' || route.length === 0 || route[0] === 'installieren';
+    if (href === '#/themen') return route[0] === 'themen' || route[0] === 'thema';
     if (href === '#/methoden') return route[0] === 'methoden' || route[0] === 'methode';
     if (href === '#/personen') return route[0] === 'personen' || route[0] === 'person';
     return r === href || r.startsWith(href + '/');
   }
 
-  /* ---------- Startseite ---------- */
+  /* ---------- Startseite: ruhig, erklärend ---------- */
   function pageStart() {
-    const prog = Quiz.Progress.all();
-    const done = T().filter(t => prog['thema-' + t.id]).length;
-    const avg = done ? Math.round(T().reduce((s, t) => s + (prog['thema-' + t.id]?.best || 0), 0) / T().length) : 0;
-    const groups = {};
-    T().forEach(t => { (groups[t.stufe] = groups[t.stufe] || []).push(t); });
     return `
-      <section class="hero">
-        <div class="kicker">Geschichte · Klasse 10 bis Abitur · Sachsen</div>
-        <h1>Geschichte verstehen – nicht nur auswendig lernen.</h1>
-        <p class="lead">Diese App führt dich vom Kalten Krieg in Klasse 10 durch alle Themen der Oberstufe bis zur Abiturprüfung. Jedes Thema hat einen eigenen Reiter mit Fließtext, Stichpunkten, Fließschemata, Zeitleiste, Begriffen und einem abschließenden Quiz.</p>
-        <div class="row"><a class="btn primary" href="#/zeitstrahl">Zeitstrahl erkunden</a><a class="btn" href="#/methoden">Methoden & Urteilen</a><a class="btn ghost" href="#/abi">Abi-Training</a></div>
+      <section class="intro">
+        <p class="kicker">Geschichte · Klasse 10 bis Abitur · Sachsen</p>
+        <h1>Willkommen bei Zeitreise</h1>
+        <p class="lead">Diese App begleitet dich durch den Geschichtsstoff von Klasse 10 bis zur Abiturprüfung – nach dem sächsischen Lehrplan und ergänzt um die Aufzeichnungen aus deinem Hefter. Du kannst in deinem Tempo lernen, wiederholen und dich selbst prüfen.</p>
       </section>
 
-      <div class="stats">
-        <div class="stat"><b>${T().length}</b><span>Hauptthemen</span></div>
-        <div class="stat"><b>${ZR.methoden.length}</b><span>Methoden-Trainings</span></div>
-        <div class="stat"><b>${ZR.personen.length}</b><span>Persönlichkeiten</span></div>
-        <div class="stat"><b>${done}/${T().length}</b><span>Quizze gemacht · Ø ${avg}%</span></div>
-      </div>
+      <section class="prose calm">
+        <h2>Was dich erwartet</h2>
+        <dl class="explain">
+          <dt>Themen</dt><dd>Alle zwölf Lehrplanthemen, geordnet nach Klasse 10 und den Lernbereichen der Oberstufe. Jedes Thema beginnt mit einer kurzen Zusammenfassung und hat dieselben Bereiche: <i>Lernen</i>, <i>Schemata</i>, <i>Zeitleiste</i>, <i>Begriffe</i> und <i>Quiz</i>.</dd>
+          <dt>Zeitstrahl</dt><dd>Der große Überblick von 1789 bis heute. Hilfreich, um Ereignisse einzuordnen und Zusammenhänge zwischen den Themen zu sehen.</dd>
+          <dt>Methoden</dt><dd>Wie du Textquellen, Karikaturen, Bildquellen und Statistiken bearbeitest – und wie ein begründetes Sach- und Werturteil aufgebaut ist.</dd>
+          <dt>Personen</dt><dd>Steckbriefe der wichtigsten Persönlichkeiten mit Lebensdaten, Überzeugungen, Zielen und Bedeutung.</dd>
+          <dt>Abi-Training</dt><dd>Gemischte Aufgaben aus allen Themen und eine Checkliste, mit der du vor der Prüfung abhakst, was du sicher kannst.</dd>
+        </dl>
+      </section>
 
-      <h2>Orientierung: 1800 bis heute</h2>
-      <p class="muted">Wische über den Zeitstrahl. Die farbigen Epochen führen direkt zum passenden Thema, die Punkte zeigen Schlüsselereignisse.</p>
-      ${timelineHTML()}
+      <section class="prose calm">
+        <h2>So lernst du mit der App</h2>
+        <ol class="calm-steps">
+          <li><b>Ein Thema auswählen.</b> Oben unter <i>Themen</i> findest du alle Themen mit einer kurzen Zusammenfassung. Nimm dir immer nur eines vor.</li>
+          <li><b>Verstehen.</b> Lies im Bereich <i>Lernen</i> zuerst den Überblick, danach die Kapitel. Mit „Vorlesen" kannst du dir die Texte auch anhören.</li>
+          <li><b>Zusammenhänge sehen.</b> Die <i>Schemata</i> zeigen Ursachen, Abläufe und Folgen, die <i>Zeitleiste</i> die wichtigsten Daten.</li>
+          <li><b>Begriffe festigen.</b> Unter <i>Begriffe</i> wiederholst du die Fachwörter – auch als Karteikarten.</li>
+          <li><b>Dich prüfen.</b> Das <i>Quiz</i> am Ende zeigt dir, was schon sitzt. Offene Fragen werden von einer KI korrigiert.</li>
+          <li><b>Vor der Prüfung.</b> Übe parallel die <i>Methoden</i> und nutze das <i>Abi-Training</i>, um alles zu verknüpfen.</li>
+        </ol>
+      </section>
 
-      <h2>So lernst du mit der App</h2>
-      <div class="grid">
-        <div class="card"><h3>1 · Verstehen</h3><p class="muted small">Lies den Überblick als Fließtext oder lass ihn dir vorlesen. Die Stichpunkte fassen das Wichtigste zusammen.</p></div>
-        <div class="card"><h3>2 · Zusammenhänge sehen</h3><p class="muted small">Fließschemata zeigen Ursachen, Abläufe und Folgen. Genau diese Zusammenhänge verlangt das Abitur.</p></div>
-        <div class="card"><h3>3 · Methoden können</h3><p class="muted small">Karikaturen, Bildquellen, Textquellen und vor allem das Urteilen (Sach- und Werturteil) trainierst du im Reiter „Methoden".</p></div>
-        <div class="card"><h3>4 · Prüfen</h3><p class="muted small">Jedes Thema endet mit einem Quiz: Zeitstrahl sortieren, zuordnen, Lückentext und offene Fragen mit KI-Korrektur.</p></div>
-      </div>
+      <section class="prose calm">
+        <h2>Gut zu wissen</h2>
+        <ul class="points">
+          <li>Mit dem Mond-Symbol oben rechts wechselst du zwischen hellem und dunklem Modus, mit der Lupe suchst du nach Begriffen, Personen oder Jahreszahlen.</li>
+          <li>Inhalte aus deinem eigenen Hefter sind mit <span class="pill hefter">📓 Hefter</span> markiert.</li>
+          <li>Dein Fortschritt wird nur auf diesem Gerät gespeichert – es gibt kein Konto.</li>
+          <li>Du kannst die App wie eine normale App auf den Homebildschirm legen: <a href="#/installieren">so geht's</a>.</li>
+        </ul>
+        <details class="quiet"><summary>Das Abitur in Sachsen – kurz erklärt</summary>${paras(ABI_INFO)}
+          <p class="small muted">Stand: Lehrplan Gymnasium Geschichte Sachsen (2019). Termine und Details regelt jedes Jahr die „VwV Abiturprüfung" – frag im Zweifel deine Lehrkraft.</p></details>
+      </section>
 
-      ${Object.entries(groups).map(([stufe, list]) => `
-        <h2>${esc(stufe)}</h2>
-        <div class="grid">${list.map(themeCard).join('')}</div>`).join('')}
-
-      <h2>Das Abitur in Sachsen – kurz erklärt</h2>
-      <div class="card prose">
-        ${paras(ABI_INFO)}
-        <p class="small muted">Stand: Lehrplan Gymnasium Geschichte Sachsen (überarbeitete Fassung 2019). Prüfungstermine und Details legt jedes Jahr die „VwV Abiturprüfung" des Kultusministeriums fest – frag im Zweifel deine Lehrkraft.</p>
-      </div>
+      <div class="start-cta"><a class="btn primary" href="#/themen">Zu den Themen</a></div>
       ${footer()}`;
   }
   const ABI_INFO = [
     'In der Oberstufe (Jahrgangsstufen 11/12) wird Geschichte als **Grundkurs** oder **Leistungskurs** unterrichtet. Der Grundkurs umfasst vier Lernbereiche: die Grundlegung der modernen Gesellschaft (Industrialisierung, Liberalismus/Nationalismus, Kaiserreich), Demokratie und Diktatur in der ersten und in der zweiten Hälfte des 20. Jahrhunderts sowie die „Herausforderung Frieden". Dazu kommt ein Wahlbereich, meist zur Geschichtskultur.',
     'Klasse 10 ist die Vorbereitungsphase: Der Ost-West-Konflikt, die doppelte deutsche Staatsgründung und die Friedliche Revolution sind Grundlagen, auf die die Oberstufe direkt aufbaut.',
-    'Im Abitur bekommst du **Materialien** (Textquellen, Karikaturen, Bilder, Statistiken, Darstellungen) und Aufgaben mit **Operatoren** aus drei Anforderungsbereichen: **AFB I** Wiedergeben (nennen, beschreiben, zusammenfassen), **AFB II** Erklären und Analysieren (erläutern, analysieren, vergleichen, einordnen) und **AFB III** Urteilen (beurteilen, bewerten, erörtern, sich positionieren). Ohne sichere Methoden und begründete Urteile gibt es keine Spitzenpunkte – darum hat dieser Bereich einen eigenen Reiter.'
+    'Im Abitur bekommst du **Materialien** (Textquellen, Karikaturen, Bilder, Statistiken, Darstellungen) und Aufgaben mit **Operatoren** aus drei Anforderungsbereichen: **AFB I** Wiedergeben, **AFB II** Erklären und Analysieren, **AFB III** Urteilen. Ohne sichere Methoden und begründete Urteile gibt es keine Spitzenpunkte.'
   ];
-  function themeCard(t) {
+
+  /* ---------- Themen-Übersicht mit Zusammenfassungen ---------- */
+  const GRUPPEN = [
+    ['Klasse 10', 'Vorbereitung auf die Oberstufe', t => t.stufe === 'Klasse 10'],
+    ['Lernbereich 1', 'Die Grundlegung der modernen Gesellschaft', t => /LB 1\b/.test(t.lehrplan) && t.stufe !== 'Klasse 10'],
+    ['Lernbereich 2', 'Demokratie und Diktatur in der ersten Hälfte des 20. Jahrhunderts', t => /LB 2\b/.test(t.lehrplan) && t.stufe !== 'Klasse 10'],
+    ['Lernbereich 3', 'Demokratie und Diktatur in der zweiten Hälfte des 20. Jahrhunderts', t => /LB 3\b/.test(t.lehrplan) && t.stufe !== 'Klasse 10'],
+    ['Lernbereich 4', 'Herausforderung „Frieden"', t => /LB 4\b/.test(t.lehrplan) && t.stufe !== 'Klasse 10'],
+    ['Wahlbereich', 'Geschichtskultur', t => /Wahl/.test(t.lehrplan)]
+  ];
+  function pageThemen() {
+    const used = new Set();
+    const groups = GRUPPEN.map(([k, titel, f]) => { const list = T().filter(t => !used.has(t.id) && f(t)); list.forEach(t => used.add(t.id)); return [k, titel, list]; });
+    const rest = T().filter(t => !used.has(t.id));
+    if (rest.length) groups.push(['Weitere Themen', '', rest]);
+    return `<h1>Themen</h1>
+      <p class="lead muted">Hier siehst du alle Themen mit einer kurzen Zusammenfassung. Wähle eines aus und arbeite es in Ruhe von oben nach unten durch.</p>
+      ${groups.filter(g => g[2].length).map(([k, titel, list]) => `
+        <section class="topic-group">
+          <h2><span class="group-kicker">${esc(k)}${list[0].stufe !== 'Klasse 10' ? ' · Grundkurs 11/12' : ''}</span>${esc(titel)}</h2>
+          ${list.map(topicRow).join('')}
+        </section>`).join('')}
+      ${footer()}`;
+  }
+  function topicRow(t) {
+    const u = (ZR.uebersicht || {})[t.id] || {};
     const p = Quiz.Progress.get('thema-' + t.id);
-    return `<a class="card theme-card" href="#/thema/${t.id}" style="--c:${t.farbe}">
-      <span class="pill">${esc(t.lehrplan)}</span><h3>${esc(t.titel)}</h3><p>${esc(t.untertitel)}</p>
-      <div class="progress" title="Bestes Quiz-Ergebnis"><i style="width:${p ? p.best : 0}%"></i></div>
-      <span class="small muted">${p ? `Quiz: bestes Ergebnis ${p.best}%` : 'Quiz noch offen'}</span></a>`;
+    return `<article class="topic" style="--c:${t.farbe}">
+      <h3><a href="#/thema/${t.id}">${esc(t.titel)}</a></h3>
+      <p>${md(u.kern || t.untertitel)}</p>
+      ${t.teile ? `<p class="topic-parts">${t.teile.map(p => `<a href="#/thema/${t.id}/lernen/${p.id}">${esc(p.titel)} <span class="muted">${esc(p.jahre || '')}</span></a>`).join('')}</p>` : ''}
+      ${u.leitfrage ? `<p class="leitfrage"><span>Leitfrage</span> ${md(u.leitfrage)}</p>` : ''}
+      <p class="topic-meta">${p ? `Quiz: bestes Ergebnis ${p.best} %` : 'Quiz noch offen'} · <a href="#/thema/${t.id}">Thema öffnen →</a></p>
+    </article>`;
   }
 
   /* ---------- Orientierender Zeitstrahl ---------- */
@@ -160,9 +186,9 @@
   function pageZeitstrahl() {
     const all = T();
     const evs = all.flatMap(t => (t.zeitleiste || []).map(e => ({ ...e, t })));
-    evs.sort((a, b) => parseFloat(a.jahr) - parseFloat(b.jahr));
+    evs.sort((a, b) => ZR.datumswert(a.jahr) - ZR.datumswert(b.jahr));
     return `<h1>Zeitstrahl</h1>
-      <p class="muted">Oben der Überblick mit allen Epochen, darunter jedes Ereignis aus allen Themen in chronologischer Reihenfolge.</p>
+      <p class="muted">Oben der Überblick mit allen Epochen, darunter alle Ereignisse aus allen Themen in zeitlicher Reihenfolge.</p>
       ${timelineHTML()}
       <div class="row" style="margin:.5rem 0 1rem"><a class="btn sm" href="#/abi/zeitstrahl">🎯 Zeitstrahl-Training starten</a></div>
       <h2>Alle Ereignisse</h2>
@@ -172,35 +198,72 @@
   }
 
   /* ---------- Themenseite ---------- */
-  const THEMA_TABS = [['lernen', 'Lernen'], ['schema', 'Fließschemata'], ['zeitleiste', 'Zeitleiste'], ['begriffe', 'Begriffe'], ['personen', 'Personen'], ['karten', 'Karteikarten'], ['quiz', 'Quiz ✓']];
-  function pageThema(id, tab = 'lernen') {
-    const t = findThema(id); if (!t) return notFound();
-    const tabs = THEMA_TABS.filter(([k]) => k !== 'personen' || (t.personen || []).length);
-    return `<div class="theme-head" style="--c:${t.farbe}">
-        <div class="row"><span class="pill">${esc(t.stufe)}</span><span class="pill teal">Lehrplan: ${esc(t.lehrplan)}</span></div>
-        <h1 style="margin-top:.5rem">${esc(t.titel)}</h1><p class="muted" style="margin:0">${esc(t.untertitel)}</p>
+  const THEMA_TABS = [['lernen', 'Lernen'], ['schema', 'Schemata'], ['zeitleiste', 'Zeitleiste'], ['begriffe', 'Begriffe'], ['quiz', 'Quiz']];
+  // Themen mit "teile" (z. B. Weltkriege) werden in eigene Reiter getrennt
+  function teilAnsicht(t, teilId) {
+    const teil = (t.teile || []).find(x => x.id === teilId) || (t.teile || [])[0];
+    if (!teil) return t;
+    const passt = o => !o.teil || o.teil === teil.id;
+    const imZeitraum = e => { const y = ZR.datumswert(e.jahr); return y >= teil.von && y < teil.bis + 1; };
+    return { ...t, _teil: teil, einleitung: teil.einleitung || t.einleitung,
+      kapitel: (t.kapitel || []).filter(passt), schemata: (t.schemata || []).filter(passt),
+      begriffe: (t.begriffe || []).filter(passt), zeitleiste: (t.zeitleiste || []).filter(imZeitraum) };
+  }
+  function pageThema(id, tab = 'lernen', teilId) {
+    let t = findThema(id); if (!t) return notFound();
+    const i = T().indexOf(t), prev = T()[i - 1], next = T()[i + 1];
+    const activeTab = tab === 'karten' ? 'begriffe' : tab;
+    const sfx = t.teile && teilId && tab !== 'quiz' ? '/' + teilId : '';
+    const tv = t.teile && tab !== 'quiz' ? teilAnsicht(t, teilId) : t;
+    return `<a href="#/themen" class="small back">← Alle Themen</a>
+      <div class="theme-head" style="--c:${t.farbe}">
+        <p class="theme-meta">${esc(t.stufe)} · Lehrplan ${esc(t.lehrplan)}</p>
+        <h1>${esc(t.titel)}</h1><p class="muted" style="margin:0">${esc(t.untertitel)}</p>
       </div>
-      <div class="subtabs" role="tablist">${tabs.map(([k, l]) => `<a class="subtab" role="tab" href="#/thema/${t.id}/${k}" aria-selected="${k === tab}">${l}</a>`).join('')}</div>
-      <div id="tabBody">${themaTab(t, tab)}</div>
+      ${t.teile ? `<nav class="parts" aria-label="Teile des Themas">${t.teile.map((p, n) => `<a href="#/thema/${t.id}/${tab === 'quiz' || tab === 'karten' ? 'lernen' : tab}/${p.id}" ${tab !== 'quiz' && (teilId === p.id || (!teilId && n === 0)) ? 'aria-current="page"' : ''}><b>${esc(p.titel)}</b><span>${esc(p.jahre || '')}</span></a>`).join('')}</nav>` : ''}
+      <nav class="subtabs" aria-label="Bereiche des Themas">${THEMA_TABS.map(([k, l]) => `<a class="subtab" href="#/thema/${t.id}/${k}${sfx}" ${k === activeTab ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</nav>
+      <div id="tabBody">${themaTab(tv, tab, sfx)}</div>
+      <nav class="pager" aria-label="Weitere Themen">
+        ${prev ? `<a href="#/thema/${prev.id}"><span>← Vorheriges Thema</span>${esc(prev.titel)}</a>` : '<span></span>'}
+        ${next ? `<a class="next" href="#/thema/${next.id}"><span>Nächstes Thema →</span>${esc(next.titel)}</a>` : ''}
+      </nav>
       ${footer()}`;
   }
-  function themaTab(t, tab) {
+  function nextStep(t, tab, sfx = '') {
+    const i = THEMA_TABS.findIndex(([k]) => k === tab), n = THEMA_TABS[i + 1];
+    if (!n) return '';
+    if (n[0] === 'quiz' && t._teil) {
+      const nt = t.teile[t.teile.indexOf(t._teil) + 1];
+      if (nt) return `<div class="next-step"><a class="btn" href="#/thema/${t.id}/lernen/${nt.id}">Weiter: ${esc(nt.titel)} →</a></div>`;
+      sfx = '';
+    }
+    return `<div class="next-step"><a class="btn" href="#/thema/${t.id}/${n[0]}${n[0] === 'quiz' ? '' : sfx}">Weiter: ${n[1]} →</a></div>`;
+  }
+  function themaTab(t, tab, sfx = '') {
     switch (tab) {
-      case 'lernen': return `
+      case 'lernen': {
+        const pers = (t.personen || []).map(findPerson).filter(Boolean);
+        return `
         <section class="prose" data-readable="Überblick: ${esc(t.titel)}"><div class="section-title"><h2 style="margin-top:0">Überblick</h2>${readBtn('Überblick: ' + t.titel)}</div>${paras(t.einleitung)}</section>
-        ${(t.kapitel || []).map(k => `<section class="prose" data-readable="${esc(k.titel)}"><div class="section-title"><h2>${esc(k.titel)}${HB(k)}</h2>${readBtn(k.titel)}</div>
+        <h2>Kapitel</h2>
+        <p class="muted small">Tippe ein Kapitel an, um es aufzuklappen.</p>
+        <div class="chapters">${(t.kapitel || []).map((k, n) => `<details class="chapter">
+          <summary><span class="num">${n + 1}</span><span>${esc(k.titel)}${HB(k)}</span></summary>
+          <div class="chapter-body prose" data-readable="${esc(k.titel)}"><div class="section-title"><span></span>${readBtn(k.titel)}</div>
           ${paras(k.text)}${k.punkte ? `<ul class="points">${k.punkte.map(p => `<li>${md(p)}</li>`).join('')}</ul>` : ''}
-          ${k.merke ? `<div class="callout"><h3>Merke</h3>${md(k.merke)}</div>` : ''}</section>`).join('')}
-        ${t.abi ? `<div class="callout abi"><h3>🎓 Abi-Tipps zu diesem Thema</h3><ul>${t.abi.map(a => `<li>${md(a)}</li>`).join('')}</ul></div>` : ''}
+          ${k.merke ? `<div class="callout"><h3>Merke</h3>${md(k.merke)}</div>` : ''}</div></details>`).join('')}</div>
+        ${t.abi ? `<div class="callout abi"><h3>Abi-Tipps zu diesem Thema</h3><ul>${t.abi.map(a => `<li>${md(a)}</li>`).join('')}</ul></div>` : ''}
         ${t.notizen ? `<div class="callout"><h3>📓 Aus dem Unterricht</h3>${paras(t.notizen)}</div>` : ''}
-        <div class="row" style="margin-top:1.5rem"><a class="btn" href="#/thema/${t.id}/schema">Weiter zu den Fließschemata →</a><a class="btn primary" href="#/thema/${t.id}/quiz">Zum Quiz</a></div>`;
-      case 'schema': return (t.schemata || []).map(schemaHTML).join('') || '<p class="muted">Noch keine Schemata.</p>';
-      case 'zeitleiste': return `<ul class="mini-tl" style="--c:${t.farbe}">${(t.zeitleiste || []).map(e => `<li><span class="y">${esc(e.jahr)}</span><span>${md(e.text)}${e.hefter ? ' <small title="Aus deinem Hefter">📓</small>' : ''}</span></li>`).join('')}</ul>`;
-      case 'begriffe': return `<p class="muted">Tippe einen Begriff an, um die Erklärung zu sehen. Alle Begriffe gibt es auch als Karteikarten.</p>
-        <div class="terms">${(t.begriffe || []).map(b => `<details class="term"><summary>${esc(b.begriff)}${b.hefter ? ' 📓' : ''}</summary><p>${md(b.erklaerung)}</p></details>`).join('')}</div>`;
-      case 'personen': return `<div class="grid">${(t.personen || []).map(findPerson).filter(Boolean).map(personCard).join('')}</div>`;
-      case 'karten': return `<div id="fcBox"></div>`;
-      case 'quiz': return `<p class="muted">Abschluss-Quiz mit ${(t.quiz || []).length} Aufgaben. Dein bestes Ergebnis wird auf diesem Gerät gespeichert.</p><div id="quizBox"></div>`;
+        ${pers.length ? `<h2>Wichtige Personen</h2><ul class="person-list">${pers.map(p => `<li><a href="#/person/${p.id}">${esc(p.name)}</a> <span class="muted small">${esc(p.lebensdaten)} · ${esc(p.rolle)}</span></li>`).join('')}</ul>` : ''}
+        ${nextStep(t, 'lernen', sfx)}`;
+      }
+      case 'schema': return ((t.schemata || []).map(schemaHTML).join('') || '<p class="muted">Noch keine Schemata.</p>') + nextStep(t, 'schema', sfx);
+      case 'zeitleiste': return `<ul class="mini-tl" style="--c:${t.farbe}">${(t.zeitleiste || []).map(e => `<li><span class="y">${esc(e.jahr)}</span><span>${md(e.text)}${e.hefter ? ' <small title="Aus deinem Hefter">📓</small>' : ''}</span></li>`).join('')}</ul>` + nextStep(t, 'zeitleiste', sfx);
+      case 'begriffe': return `<div class="row between"><p class="muted" style="margin:0">Tippe einen Begriff an, um die Erklärung zu sehen.</p><a class="btn sm" href="#/thema/${t.id}/karten${sfx}">Als Karteikarten üben</a></div>
+        <div class="terms">${(t.begriffe || []).map(b => `<details class="term"><summary>${esc(b.begriff)}${b.hefter ? ' 📓' : ''}</summary><p>${md(b.erklaerung)}</p></details>`).join('')}</div>` + nextStep(t, 'begriffe', sfx);
+      case 'karten': return `<p><a class="small" href="#/thema/${t.id}/begriffe${sfx}">← zurück zur Begriffsliste</a></p><div id="fcBox"></div>`;
+      case 'quiz': return `<p class="muted">${t.teile ? 'Gemeinsames ' : ''}Abschluss-Quiz mit ${(t.quiz || []).length} Aufgaben. Dein bestes Ergebnis wird auf diesem Gerät gespeichert.</p><div id="quizBox"></div>`;
+      case 'personen': return themaTab(t, 'lernen', sfx);
     }
     return '';
   }
@@ -221,7 +284,7 @@
     if (tab === 'karten') {
       const cards = (t.begriffe || []).map(b => ({ vorne: b.begriff, hinten: b.erklaerung }))
         .concat((t.zeitleiste || []).filter(e => e.karte !== false).slice(0, 12).map(e => ({ vorne: e.jahr, hinten: e.text })));
-      Quiz.flashcards(document.getElementById('fcBox'), cards, t.titel);
+      Quiz.flashcards(document.getElementById('fcBox'), cards, t._teil ? t._teil.titel : t.titel);
     }
   }
 
@@ -230,7 +293,7 @@
   function personCard(p) {
     const th = findThema((p.themen || [])[0]);
     return `<a class="card person-card" href="#/person/${p.id}" style="--c:${th ? th.farbe : 'var(--teal)'}">
-      <div class="avatar">${esc(initials(p.name))}</div><h3 style="margin:.3rem 0 0;font-family:var(--font-display)">${esc(p.name)}</h3>
+      <div class="avatar">${esc(initials(p.name))}</div><h3 style="margin:.3rem 0 0">${esc(p.name)}</h3>
       <span class="small muted">${esc(p.lebensdaten)}</span><span class="small">${esc(p.rolle)}</span></a>`;
   }
   function pagePersonen() {
@@ -284,7 +347,7 @@
     if (tab === 'uebung') body = `<div id="quizBox"></div>`;
     return `<a href="#/methoden" class="small">← alle Methoden</a>
       <div class="theme-head" style="--c:${m.farbe || 'var(--teal)'};margin-top:.6rem"><span class="pill teal">${esc(m.kategorie)}</span><h1 style="margin-top:.4rem">${esc(m.titel)}</h1><p class="muted" style="margin:0">${esc(m.untertitel)}</p></div>
-      <div class="subtabs">${tabs.map(([k, l]) => `<a class="subtab" href="#/methode/${m.id}/${k}" aria-selected="${k === tab}">${l}</a>`).join('')}</div>${body}${footer()}`;
+      <div class="subtabs">${tabs.map(([k, l]) => `<a class="subtab" href="#/methode/${m.id}/${k}" ${k === tab ? 'aria-current="page"' : ''}>${l}</a>`).join('')}</div>${body}${footer()}`;
   }
 
   /* ---------- Abi-Training ---------- */
@@ -411,8 +474,9 @@
     let html;
     switch (r[0]) {
       case '': html = pageStart(); break;
+      case 'themen': html = pageThemen(); break;
       case 'zeitstrahl': html = pageZeitstrahl(); break;
-      case 'thema': html = pageThema(r[1], r[2]); break;
+      case 'thema': html = pageThema(r[1], r[2], r[3]); break;
       case 'methoden': html = pageMethoden(); break;
       case 'methode': html = pageMethode(r[1], r[2]); break;
       case 'personen': html = pagePersonen(); break;
@@ -424,7 +488,7 @@
     const m = main(); m.innerHTML = html;
     window.scrollTo({ top: 0, behavior: 'instant' in window ? 'instant' : 'auto' });
     document.title = (m.querySelector('h1')?.textContent || 'Start') + ' · Zeitreise';
-    if (r[0] === 'thema') { const t = findThema(r[1]); if (t) afterThema(t, r[2] || 'lernen'); }
+    if (r[0] === 'thema') { const t = findThema(r[1]); if (t) afterThema(t.teile && r[2] !== 'quiz' ? teilAnsicht(t, r[3]) : t, r[2] || 'lernen'); }
     if (r[0] === 'methode' && (r[2] === 'uebung')) { const md_ = findMethode(r[1]); if (md_) Quiz.run(document.getElementById('quizBox'), md_.uebung || [], { id: 'methode-' + md_.id, backHref: `#/methode/${md_.id}` }); }
     if (r[0] === 'abi') afterAbi(r[1]);
     if (r[0] === 'installieren') afterInstall();
@@ -443,10 +507,6 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('themeBtn').addEventListener('click', toggleTheme);
-    document.getElementById('menuBtn').addEventListener('click', e => {
-      const n = document.getElementById('tabs'); n.classList.toggle('open');
-      e.currentTarget.setAttribute('aria-expanded', n.classList.contains('open'));
-    });
     const sp = document.getElementById('searchPanel'), si = document.getElementById('searchInput'), sr = document.getElementById('searchResults');
     document.getElementById('searchBtn').addEventListener('click', () => { sp.hidden = !sp.hidden; if (!sp.hidden) si.focus(); });
     si.addEventListener('input', () => {
@@ -460,7 +520,7 @@
       const clone = sec.cloneNode(true); clone.querySelectorAll('.read-btn').forEach(x => x.remove());
       TTS.speak(clone.innerText, b.dataset.read, b);
     });
-    window.addEventListener('hashchange', () => { document.getElementById('tabs').classList.remove('open'); route(); });
+    window.addEventListener('hashchange', route);
     route();
     if ('serviceWorker' in navigator && location.protocol === 'https:') navigator.serviceWorker.register('sw.js').catch(() => {});
   });

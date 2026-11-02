@@ -71,6 +71,13 @@ ZR.themen.forEach(t => {
   if (!(t.quiz || []).length) warn.push(`Thema ${t.id}: noch kein Quiz.`);
   checkQuiz(`Thema ${t.id}`, t.quiz);
 });
+Object.keys(ZR.uebersicht || {}).forEach(id => { if (!themaIds.has(id)) errors.push(`themen-uebersicht.js: Thema "${id}" existiert nicht.`); });
+ZR.themen.forEach(t => { if (!(ZR.uebersicht || {})[t.id]) warn.push(`Thema ${t.id}: keine Zusammenfassung in data/themen-uebersicht.js.`); });
+ZR.themen.filter(t => t.teile).forEach(t => {
+  const ids = new Set(t.teile.map(x => x.id));
+  [].concat(t.kapitel || [], t.schemata || [], t.begriffe || []).forEach(o => { if (o.teil && !ids.has(o.teil)) errors.push(`Thema ${t.id}: teil "${o.teil}" ist in "teile" nicht definiert.`); });
+  t.teile.forEach(x => { if (!(x.von < x.bis)) errors.push(`Thema ${t.id}, Teil ${x.id}: "von" und "bis" (Jahre) fehlen.`); });
+});
 ZR.methoden.forEach(m => checkQuiz(`Methode ${m.id}`, m.uebung));
 ZR.personen.forEach(p => (p.themen || []).forEach(tid => { if (!themaIds.has(tid)) errors.push(`Person ${p.id}: Thema "${tid}" existiert nicht.`); }));
 ZR.zeitstrahl.epochen.concat(ZR.zeitstrahl.ereignisse).forEach(e => { if (e.thema && !themaIds.has(e.thema)) errors.push(`Zeitstrahl: Thema "${e.thema}" existiert nicht.`); });

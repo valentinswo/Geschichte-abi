@@ -11,9 +11,18 @@ ZR.thema({
     'Der **Zweite Weltkrieg (1939–1945)** war von Anfang an ein von Deutschland geplanter Eroberungs- und im Osten ein ideologischer **Vernichtungskrieg**. Mit 60 bis 65 Millionen Toten, dem Holocaust und den Atombomben übertraf er den Ersten Weltkrieg in jeder Hinsicht.',
     'Für das Abitur (LB 4) musst du **Ursachen** und **Charakter** beider Kriege kennen und vergleichen können. Die Friedensregelungen danach – Versailles, Potsdam, Zwei-plus-Vier – findest du im Reiter „Frieden".'
   ],
+  // Teile: Das Thema wird in der App in zwei eigene Reiter getrennt.
+  // Kapitel, Schemata und Begriffe mit "teil" erscheinen nur dort; ohne "teil" in beiden.
+  // Die Zeitleiste wird über die Jahre (von/bis) aufgeteilt.
+  teile: [
+    { id: 'erster', titel: 'Erster Weltkrieg', jahre: '1914–1918', von: 1870, bis: 1929,
+      einleitung: ['Der **Erste Weltkrieg (1914–1918)** gilt als „Urkatastrophe des 20. Jahrhunderts": der erste industrialisierte Massenkrieg mit rund 17 Millionen Toten. Er zerstörte die alten Monarchien, brachte in Deutschland die erste Demokratie hervor – und hinterließ mit dem Versailler Vertrag eine schwere Hypothek.', 'Für das Abitur musst du die **langfristigen Ursachen**, den Ablauf der **Julikrise**, die Debatte um die **Kriegsschuld** und den **Charakter** des Krieges kennen.'] },
+    { id: 'zweiter', titel: 'Zweiter Weltkrieg', jahre: '1939–1945', von: 1930, bis: 1950,
+      einleitung: ['Der **Zweite Weltkrieg (1939–1945)** war von Anfang an ein von Deutschland geplanter Eroberungs- und im Osten ein ideologischer **Vernichtungskrieg**. Mit 60 bis 65 Millionen Toten, dem Holocaust und den Atombomben übertraf er den Ersten Weltkrieg in jeder Hinsicht.', 'Für das Abitur musst du die **Ursachen**, den **Verlauf im Überblick** und den **Charakter** dieses Krieges kennen – und ihn mit dem Ersten Weltkrieg vergleichen können. Die Friedensregelungen danach findest du im Thema „Frieden".'] }
+  ],
   kapitel: [
     {
-      titel: 'Ursachen des Ersten Weltkriegs',
+      titel: 'Ursachen des Ersten Weltkriegs', teil: 'erster',
       hefter: true,
       punkte: [
         '**Imperialismus:** Besetzung, Kontrolle und Ausbeutung schwächerer Gebiete; in Europa imperiale Rivalität zwischen den Großmächten, Machtkampf um Territorien (D–GB, D–F, Österreich-Ungarn–Russland).',
@@ -25,7 +34,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Die Julikrise 1914',
+      titel: 'Die Julikrise 1914', teil: 'erster',
       hefter: true,
       punkte: [
         '**28. Juni 1914:** Ermordung des österreichischen Thronfolgerpaares Franz Ferdinand und Sophie in **Sarajevo** durch serbische Nationalisten (Geheimorganisation „Schwarze Hand").',
@@ -38,7 +47,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Die Kriegsschuldfrage',
+      titel: 'Die Kriegsschuldfrage', teil: 'erster',
       hefter: true,
       text: ['Welche Ziele verfolgte die deutsche Führung im Juli 1914? Die Forschung diskutiert bis heute zwei Deutungen.'],
       punkte: [
@@ -49,7 +58,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Charakter des Ersten Weltkriegs',
+      titel: 'Charakter des Ersten Weltkriegs', teil: 'erster',
       hefter: true,
       punkte: [
         '**Totaler Krieg:** Krieg wird zentrales Thema in Politik, Gesellschaft und Wirtschaft; Propaganda; Mobilisierung aller Ressourcen (Kriegswirtschaft, Frauenarbeit) → Massensterben und Leid.',
@@ -61,7 +70,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Kriegsende und Folgen des Ersten Weltkriegs',
+      titel: 'Kriegsende und Folgen des Ersten Weltkriegs', teil: 'erster',
       hefter: true,
       punkte: [
         '**Kriegsende:** Nach dem Scheitern der Frühjahrsoffensive 1918 fordert die OHL im September Waffenstillstandsverhandlungen; **11. November 1918** Waffenstillstand von Compiègne. (Zur Novemberrevolution siehe Reiter „Weimar".)',
@@ -71,7 +80,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Ursachen des Zweiten Weltkriegs',
+      titel: 'Ursachen des Zweiten Weltkriegs', teil: 'zweiter',
       hefter: true,
       punkte: [
         '**Versailler Vertrag und Folgen des Ersten Weltkriegs:** Verletzung des Nationalstolzes, Schuldzuweisung, Unzufriedenheit → **revanchistischer Geist** (Wunsch nach Rückgewinnung und Rache).',
@@ -83,7 +92,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Verlauf des Zweiten Weltkriegs im Überblick',
+      titel: 'Verlauf des Zweiten Weltkriegs im Überblick', teil: 'zweiter',
       punkte: [
         '**1939–1941 „Blitzkriege":** Polen (Sept. 1939), Dänemark/Norwegen, Benelux und Frankreich (Mai/Juni 1940); Luftschlacht um England scheitert.',
         '**22. Juni 1941: Überfall auf die Sowjetunion** („Unternehmen Barbarossa") – Beginn des Vernichtungskrieges; Dezember 1941: Angriff Japans auf Pearl Harbor, Kriegseintritt der USA – der Krieg wird zum Weltkrieg.',
@@ -93,7 +102,7 @@ ZR.thema({
       ]
     },
     {
-      titel: 'Charakter des Zweiten Weltkriegs',
+      titel: 'Charakter des Zweiten Weltkriegs', teil: 'zweiter',
       hefter: true,
       punkte: [
         '**Totaler Krieg:** zentrales Thema in Gesellschaft, Wirtschaft und Politik; **ideologischer Konflikt**; Propaganda.',
@@ -107,13 +116,13 @@ ZR.thema({
   ],
   schemata: [
     {
-      typ: 'ursache', titel: 'Der Ausbruch des Ersten Weltkriegs', hefter: true,
+      typ: 'ursache', teil: 'erster', titel: 'Der Ausbruch des Ersten Weltkriegs', hefter: true,
       ursachen: ['a) Machtpolitische Gegensätze und imperialistische Interessen (D–GB, D–F, Ö-U–R)', 'b) Rüstungswettlauf der Großmächte', 'c) Feindliche Bündnissysteme, allgemeine Kriegsbereitschaft, aggressive Nationalbewegungen', 'd) Nationalitätenprobleme in Österreich-Ungarn'],
       ereignis: 'Julikrise und Kriegserklärungen Anfang August 1914',
       folgen: ['Automatik der Bündnisverpflichtungen', 'Politik der Ultimaten und Mobilmachungen', 'Schlieffenplan: Angriff über das neutrale Belgien', 'Kriegseintritt Großbritanniens (4.8.)', 'Vierjähriger Weltkrieg']
     },
     {
-      typ: 'kette', titel: 'Die Julikrise Tag für Tag', hefter: true,
+      typ: 'kette', teil: 'erster', titel: 'Die Julikrise Tag für Tag', hefter: true,
       schritte: [
         { t: '28. Juni', d: 'Attentat von Sarajevo' },
         { t: '5./6. Juli', d: 'Deutscher „Blankoscheck" für Österreich-Ungarn', hl: true },
@@ -161,18 +170,18 @@ ZR.thema({
     { jahr: 'Aug. 1945', text: 'Atombomben auf Hiroshima und Nagasaki; Kapitulation Japans am 2. September' }
   ],
   begriffe: [
-    { begriff: 'Imperialismus', erklaerung: 'Streben eines Staates nach Herrschaft über andere Gebiete und Völker (Besetzung, Kontrolle, Ausbeutung), v. a. durch Kolonien (Hochphase 1880–1914).' },
-    { begriff: 'Militarismus', erklaerung: 'Vorherrschaft militärischen Denkens in Politik, Wirtschaft und Gesellschaft.' },
-    { begriff: 'Blankoscheck', erklaerung: 'Bedingungslose Unterstützungszusage Deutschlands an Österreich-Ungarn im Juli 1914.' },
-    { begriff: 'Julikrise', erklaerung: 'Diplomatische Krise nach dem Attentat von Sarajevo, die durch Ultimaten, Bündnisverpflichtungen und Mobilmachungen in den Ersten Weltkrieg führte.' },
-    { begriff: 'Schlieffenplan', erklaerung: 'Deutscher Aufmarschplan: schnelle Niederwerfung Frankreichs über das neutrale Belgien, danach Krieg gegen Russland.' },
-    { begriff: 'Septemberprogramm', erklaerung: 'Denkschrift von Reichskanzler Bethmann Hollweg (September 1914) mit weitreichenden deutschen Kriegszielen – zentraler Beleg der Fischer-These.' },
-    { begriff: 'Stellungskrieg', erklaerung: 'Kriegsführung aus festen Gräben heraus, bei der sich die Front kaum bewegt.' },
-    { begriff: 'Materialschlacht', erklaerung: 'Schlacht, in der die Masse an Munition und Waffen entscheiden soll (Verdun, Somme).' },
+    { teil: 'erster', begriff: 'Imperialismus', erklaerung: 'Streben eines Staates nach Herrschaft über andere Gebiete und Völker (Besetzung, Kontrolle, Ausbeutung), v. a. durch Kolonien (Hochphase 1880–1914).' },
+    { teil: 'erster', begriff: 'Militarismus', erklaerung: 'Vorherrschaft militärischen Denkens in Politik, Wirtschaft und Gesellschaft.' },
+    { teil: 'erster', begriff: 'Blankoscheck', erklaerung: 'Bedingungslose Unterstützungszusage Deutschlands an Österreich-Ungarn im Juli 1914.' },
+    { teil: 'erster', begriff: 'Julikrise', erklaerung: 'Diplomatische Krise nach dem Attentat von Sarajevo, die durch Ultimaten, Bündnisverpflichtungen und Mobilmachungen in den Ersten Weltkrieg führte.' },
+    { teil: 'erster', begriff: 'Schlieffenplan', erklaerung: 'Deutscher Aufmarschplan: schnelle Niederwerfung Frankreichs über das neutrale Belgien, danach Krieg gegen Russland.' },
+    { teil: 'erster', begriff: 'Septemberprogramm', erklaerung: 'Denkschrift von Reichskanzler Bethmann Hollweg (September 1914) mit weitreichenden deutschen Kriegszielen – zentraler Beleg der Fischer-These.' },
+    { teil: 'erster', begriff: 'Stellungskrieg', erklaerung: 'Kriegsführung aus festen Gräben heraus, bei der sich die Front kaum bewegt.' },
+    { teil: 'erster', begriff: 'Materialschlacht', erklaerung: 'Schlacht, in der die Masse an Munition und Waffen entscheiden soll (Verdun, Somme).' },
     { begriff: 'Totaler Krieg', erklaerung: 'Krieg, in dem alle gesellschaftlichen und wirtschaftlichen Ressourcen mobilisiert werden und die Grenze zwischen Front und Heimat verschwindet.' },
-    { begriff: 'Revanchismus', erklaerung: 'Politik, die verlorene Gebiete zurückgewinnen bzw. eine Niederlage „rächen" will.' },
-    { begriff: 'Blitzkrieg', erklaerung: 'Propagandabegriff für schnelle Feldzüge mit Panzern und Luftwaffe (1939–1941).' },
-    { begriff: 'Vernichtungskrieg', erklaerung: 'Ideologisch begründete Kriegsführung im Osten ab 1941 mit dem Ziel, Juden, Eliten und Teile der Zivilbevölkerung zu vernichten und das Land auszubeuten.' }
+    { teil: 'erster', begriff: 'Revanchismus', erklaerung: 'Politik, die verlorene Gebiete zurückgewinnen bzw. eine Niederlage „rächen" will.' },
+    { teil: 'zweiter', begriff: 'Blitzkrieg', erklaerung: 'Propagandabegriff für schnelle Feldzüge mit Panzern und Luftwaffe (1939–1941).' },
+    { teil: 'zweiter', begriff: 'Vernichtungskrieg', erklaerung: 'Ideologisch begründete Kriegsführung im Osten ab 1941 mit dem Ziel, Juden, Eliten und Teile der Zivilbevölkerung zu vernichten und das Land auszubeuten.' }
   ],
   personen: ['wilhelm2', 'ludendorff', 'hindenburg', 'wilson', 'hitler', 'stalin', 'chamberlain'],
   abi: [

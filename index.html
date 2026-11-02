@@ -16,7 +16,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,600;9..144,800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,500;8..60,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <script>
     // Theme früh setzen, damit nichts flackert
@@ -34,11 +34,10 @@
     <div class="topbar-actions">
       <button class="icon-btn" id="searchBtn" aria-label="Suche öffnen" title="Suche"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
       <button class="icon-btn" id="themeBtn" aria-label="Hell/Dunkel umschalten" title="Hell/Dunkel"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></button>
-      <button class="icon-btn" id="menuBtn" aria-label="Menü" aria-expanded="false" title="Menü"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
     </div>
   </header>
 
-  <nav class="tabs" id="tabs" aria-label="Hauptthemen"></nav>
+  <nav class="tabs" id="tabs" aria-label="Hauptnavigation"></nav>
 
   <div class="search-panel" id="searchPanel" hidden>
     <input type="search" id="searchInput" placeholder="Begriff, Person, Jahr suchen …" autocomplete="off" aria-label="Suche">
@@ -63,6 +62,7 @@
   <!-- Inhalte: Jede Datei registriert sich selbst. Neue Themen hier eintragen (siehe CONTRIBUTING.md). -->
   <script src="data/registry.js"></script>
   <script src="data/zeitstrahl.js"></script>
+  <script src="data/themen-uebersicht.js"></script>
   <script src="data/personen.js"></script>
   <script src="data/themen/01-kalter-krieg.js"></script>
   <script src="data/themen/02-deutschland-1945-1990.js"></script>

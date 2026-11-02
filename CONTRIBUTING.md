@@ -7,7 +7,8 @@ Alle Lerninhalte liegen als einfache JavaScript-Dateien im Ordner `data/`. Du mu
 ```
 data/
   registry.js            ← nicht ändern
-  zeitstrahl.js          ← Epochen und Ereignisse des Start-Zeitstrahls
+  zeitstrahl.js          ← Epochen und Ereignisse des Zeitstrahls
+  themen-uebersicht.js   ← Kurz-Zusammenfassung + Leitfrage je Thema (Seite „Themen“)
   personen.js            ← Steckbriefe
   themen/01-….js         ← ein Hauptthema pro Datei (= ein Reiter)
   themen/_vorlage.js     ← Vorlage für neue Themen
@@ -57,6 +58,7 @@ ZR.ergaenze('weimar', {
 | `abi` | Abi-Tipps |
 | `notizen` | Eigene Ergänzungen aus dem Unterricht (erscheinen als Kasten „Aus dem Unterricht") |
 | `quiz` | Abschlussquiz (siehe unten) |
+| `teile` | Optional: Thema in eigene Reiter trennen (z. B. Weltkriege). Kapitel, Schemata, Begriffe bekommen dann `teil: '…'`; die Zeitleiste wird über `von`/`bis` (Jahre) aufgeteilt. |
 
 ## Quiz-Aufgabentypen
 
