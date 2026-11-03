@@ -97,6 +97,13 @@ button { cursor: pointer; }
 }
 .tab[aria-current="page"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
 .tab-sep { flex: 0 0 1px; background: var(--line); margin: .25rem .2rem; }
+.tab-group { flex: 0 0 auto; display: flex; align-items: center; gap: .35rem; padding: .22rem .3rem .22rem .5rem; border-radius: 999px; background: color-mix(in srgb, var(--gc) 16%, transparent); border: 1px solid color-mix(in srgb, var(--gc) 45%, transparent); }
+.tab-group.g0 { --gc: var(--teal); }
+.tab-group.g1 { --gc: var(--accent); }
+.tab-label { flex: 0 0 auto; font-size: .72rem; font-weight: 750; letter-spacing: .05em; text-transform: uppercase; color: var(--gc); white-space: nowrap; padding-right: .15rem; }
+.tabs.open .tab-group { flex-wrap: wrap; border-radius: var(--radius-sm); }
+.pill.stufe.s10 { background: var(--teal-soft); color: var(--teal); }
+.pill.stufe.s11 { background: var(--accent-soft); color: var(--accent); }
 .tabs.open { flex-wrap: wrap; }
 
 /* ---------- Suche ---------- */
@@ -188,10 +195,11 @@ ul.points li::marker { color: var(--accent); }
 
 /* Mini-Zeitleiste im Thema */
 .mini-tl { list-style: none; padding: 0; margin: 0; position: relative; }
-.mini-tl::before { content: ""; position: absolute; left: 66px; top: .3rem; bottom: .3rem; width: 2px; background: var(--line); }
-.mini-tl li { display: grid; grid-template-columns: 58px 1fr; gap: 22px; padding: .4rem 0; position: relative; }
-.mini-tl li::before { content: ""; position: absolute; left: 61px; top: .85rem; width: 12px; height: 12px; border-radius: 50%; background: var(--c, var(--accent)); border: 2px solid var(--bg); }
-.mini-tl .y { font-weight: 750; font-variant-numeric: tabular-nums; text-align: right; }
+.mini-tl { --yw: 6.6rem; }
+.mini-tl::before { content: ""; position: absolute; left: calc(var(--yw) + 13px); top: .3rem; bottom: .3rem; width: 2px; background: var(--line); }
+.mini-tl li { display: grid; grid-template-columns: var(--yw) 1fr; gap: 30px; padding: .4rem 0; position: relative; }
+.mini-tl li::before { content: ""; position: absolute; left: calc(var(--yw) + 8px); top: .85rem; width: 12px; height: 12px; border-radius: 50%; background: var(--c, var(--accent)); border: 2px solid var(--bg); }
+.mini-tl .y { font-weight: 750; overflow-wrap: anywhere; font-variant-numeric: tabular-nums; text-align: right; }
 
 /* ---------- Fließschemata ---------- */
 .flow { display: flex; flex-direction: column; align-items: stretch; gap: 0; margin: .6rem 0 1.4rem; }
@@ -359,3 +367,22 @@ textarea.answer { width: 100%; min-height: 150px; padding: .8rem; border-radius:
 .checklist { list-style: none; padding: 0; margin: .3rem 0 1rem; display: grid; gap: .35rem; }
 .checklist label { cursor: pointer; }
 .checklist input { width: 18px; height: 18px; vertical-align: -3px; accent-color: var(--good); margin-right: .3rem; }
+
+@media (max-width: 520px) { .mini-tl { --yw: 5.8rem; } .mini-tl .y { font-size: .92rem; } }
+
+/* ---------- Quiz-Überblick ---------- */
+.overview { list-style: none; padding: 0; margin: .6rem 0 0; display: grid; gap: .6rem; text-align: left; }
+.overview li { display: flex; gap: .7rem; padding: .7rem .8rem; border: 1px solid var(--line); border-radius: var(--radius-sm); background: var(--surface); }
+.overview li.ok { border-left: 4px solid var(--good); }
+.overview li.part { border-left: 4px solid #d4a017; }
+.overview li.no { border-left: 4px solid var(--bad); }
+.overview li.skip { border-left: 4px solid var(--line); }
+.ov-mark { flex: 0 0 1.6rem; height: 1.6rem; border-radius: 50%; display: grid; place-items: center; font-weight: 700; font-size: .9rem; background: var(--surface-2); }
+.overview li.ok .ov-mark { background: var(--good-soft); color: var(--good); }
+.overview li.no .ov-mark { background: var(--bad-soft); color: var(--bad); }
+.ov-q { font-weight: 600; }
+.ov-type { display: block; font-size: .72rem; font-weight: 650; text-transform: uppercase; letter-spacing: .04em; color: var(--ink-soft); }
+.ov-a { margin-top: .25rem; font-size: .93rem; }
+.ov-e { margin-top: .2rem; }
+.pool-overview { margin-top: 1.2rem; }
+.pool-overview summary { cursor: pointer; }

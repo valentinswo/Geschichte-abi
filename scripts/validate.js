@@ -25,7 +25,7 @@ for (const s of scripts) {
 }
 
 // Nicht eingebundene Themen-Dateien finden
-for (const dir of ['data/themen', 'data/methoden', 'data/hefter']) {
+for (const dir of ['data/themen', 'data/methoden', 'data/hefter', 'data/quiz']) {
   for (const f of fs.readdirSync(path.join(root, dir))) {
     if (f.endsWith('.js') && !f.startsWith('_') && !scripts.includes(`${dir}/${f}`)) errors.push(`${dir}/${f} ist nicht in index.html eingebunden.`);
   }

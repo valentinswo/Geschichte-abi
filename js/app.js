@@ -31,15 +31,16 @@
   }
 
   /* ---------- Reiterleiste ---------- */
+  const stufeKurz = st => /10/.test(st) ? 'Klasse 10' : 'Klasse 11/12';
   function renderTabs(route) {
-    const items = [
-      ['#/', 'Start'], ['#/zeitstrahl', 'Zeitstrahl'], 'sep',
-      ...T().map(t => [`#/thema/${t.id}`, t.kurz || t.titel]), 'sep',
-      ['#/methoden', 'Methoden & Urteilen'], ['#/personen', 'Persönlichkeiten'], ['#/abi', 'Abi-Training'], ['#/installieren', 'App installieren']
-    ];
+    const tab = it => `<a class="tab" href="${it[0]}" ${isActive(it[0], route) ? 'aria-current="page"' : ''}>${esc(it[1])}</a>`;
+    const groups = [];
+    T().forEach(t => { const k = stufeKurz(t.stufe); let g = groups.find(x => x.k === k); if (!g) groups.push(g = { k, list: [] }); g.list.push(t); });
     const nav = document.getElementById('tabs');
-    nav.innerHTML = items.map(it => it === 'sep' ? '<span class="tab-sep" aria-hidden="true"></span>' :
-      `<a class="tab" href="${it[0]}" ${isActive(it[0], route) ? 'aria-current="page"' : ''}>${esc(it[1])}</a>`).join('');
+    nav.innerHTML = [['#/', 'Start'], ['#/zeitstrahl', 'Zeitstrahl']].map(tab).join('') +
+      groups.map((g, n) => `<span class="tab-group g${n}" role="group" aria-label="${esc(g.k)}"><span class="tab-label">${esc(g.k)}</span>${g.list.map(t => tab([`#/thema/${t.id}`, t.kurz || t.titel])).join('')}</span>`).join('') +
+      '<span class="tab-sep" aria-hidden="true"></span>' +
+      [['#/methoden', 'Methoden & Urteilen'], ['#/personen', 'Persönlichkeiten'], ['#/abi', 'Abi-Training'], ['#/installieren', 'App installieren']].map(tab).join('');
     const act = nav.querySelector('[aria-current]');
     if (act) act.scrollIntoView({ inline: 'center', block: 'nearest' });
   }
@@ -86,7 +87,7 @@
       </div>
 
       ${Object.entries(groups).map(([stufe, list]) => `
-        <h2>${esc(stufe)}</h2>
+        <h2>${esc(stufeKurz(stufe))}${/10/.test(stufe) ? '' : ' · Grundkurs'}</h2>
         <div class="grid">${list.map(themeCard).join('')}</div>`).join('')}
 
       <h2>Das Abitur in Sachsen – kurz erklärt</h2>
@@ -160,7 +161,7 @@
   function pageZeitstrahl() {
     const all = T();
     const evs = all.flatMap(t => (t.zeitleiste || []).map(e => ({ ...e, t })));
-    evs.sort((a, b) => parseFloat(a.jahr) - parseFloat(b.jahr));
+    evs.sort((a, b) => ZR.datumswert(a.jahr) - ZR.datumswert(b.jahr));
     return `<h1>Zeitstrahl</h1>
       <p class="muted">Oben der Überblick mit allen Epochen, darunter jedes Ereignis aus allen Themen in chronologischer Reihenfolge.</p>
       ${timelineHTML()}
@@ -177,7 +178,7 @@
     const t = findThema(id); if (!t) return notFound();
     const tabs = THEMA_TABS.filter(([k]) => k !== 'personen' || (t.personen || []).length);
     return `<div class="theme-head" style="--c:${t.farbe}">
-        <div class="row"><span class="pill">${esc(t.stufe)}</span><span class="pill teal">Lehrplan: ${esc(t.lehrplan)}</span></div>
+        <div class="row"><span class="pill stufe s${/10/.test(t.stufe) ? 10 : 11}">${esc(stufeKurz(t.stufe))}${/10/.test(t.stufe) ? '' : ' · Grundkurs'}</span><span class="pill teal">Lehrplan: ${esc(t.lehrplan)}</span></div>
         <h1 style="margin-top:.5rem">${esc(t.titel)}</h1><p class="muted" style="margin:0">${esc(t.untertitel)}</p>
       </div>
       <div class="subtabs" role="tablist">${tabs.map(([k, l]) => `<a class="subtab" role="tab" href="#/thema/${t.id}/${k}" aria-selected="${k === tab}">${l}</a>`).join('')}</div>
@@ -200,7 +201,13 @@
         <div class="terms">${(t.begriffe || []).map(b => `<details class="term"><summary>${esc(b.begriff)}${b.hefter ? ' 📓' : ''}</summary><p>${md(b.erklaerung)}</p></details>`).join('')}</div>`;
       case 'personen': return `<div class="grid">${(t.personen || []).map(findPerson).filter(Boolean).map(personCard).join('')}</div>`;
       case 'karten': return `<div id="fcBox"></div>`;
-      case 'quiz': return `<p class="muted">Abschluss-Quiz mit ${(t.quiz || []).length} Aufgaben. Dein bestes Ergebnis wird auf diesem Gerät gespeichert.</p><div id="quizBox"></div>`;
+      case 'quiz': {
+        const n = quizPool(t).length;
+        return `<p class="muted">Jede Runde stellt dir <b>${Math.min(QUIZ_N, n)} zufällige Aufgaben</b> aus einem Pool von <b>${n} Aufgaben</b> – Multiple Choice, Wahr/Falsch, Zeitstrahl, Zuordnen und eine offene Frage. Fragen, die du gerade hattest, kommen erst später wieder. Dein bestes Ergebnis wird auf diesem Gerät gespeichert.</p>
+        <div id="quizBox"></div>
+        <details class="card pool-overview"><summary><b>Alle Fragen im Überblick</b> <span class="muted small">(${(t.quiz || []).length} Aufgaben mit Lösung – zum Wiederholen)</span></summary>${Quiz.ueberblickHTML(t.quiz || [], false)}
+          <p class="small muted">Dazu kommen in den Runden automatisch erzeugte Fragen zu Begriffen, Jahreszahlen und Personen dieses Themas.</p></details>`;
+      }
     }
     return '';
   }
@@ -216,8 +223,10 @@
     return `${H}${s.text ? `<p class="muted">${md(s.text)}</p>` : ''}
       <div class="flow ${s.horizontal ? 'h' : ''}">${s.schritte.map((st, i) => `${i ? '<div class="flow-arrow" aria-hidden="true">↓</div>' : ''}<div class="flow-step ${st.hl ? 'hl' : ''}"><b>${md(st.t)}</b>${st.d ? `<span>${md(st.d)}</span>` : ''}</div>`).join('')}</div>`;
   }
+  const QUIZ_N = 12;
+  const quizPool = t => (t.quiz || []).concat(Quiz.auto(t, T(), ZR.personen));
   function afterThema(t, tab) {
-    if (tab === 'quiz') Quiz.run(document.getElementById('quizBox'), t.quiz || [], { id: 'thema-' + t.id, backHref: `#/thema/${t.id}` });
+    if (tab === 'quiz') Quiz.run(document.getElementById('quizBox'), () => quizPool(t), { id: 'thema-' + t.id, anzahl: QUIZ_N, backHref: `#/thema/${t.id}` });
     if (tab === 'karten') {
       const cards = (t.begriffe || []).map(b => ({ vorne: b.begriff, hinten: b.erklaerung }))
         .concat((t.zeitleiste || []).filter(e => e.karte !== false).slice(0, 12).map(e => ({ vorne: e.jahr, hinten: e.text })));
@@ -291,7 +300,7 @@
   function pageAbi(mode) {
     if (!mode) return `<h1>Abi-Training</h1><p class="lead muted">Gemischte Aufgaben aus allen Themen – so wie im Ernstfall, wo du Wissen verknüpfen musst.</p>
       <div class="grid">
-        <a class="card theme-card" href="#/abi/mix" style="--c:var(--accent)"><h3>🎲 Mix-Quiz</h3><p>15 zufällige Aufgaben aus allen Themen.</p></a>
+        <a class="card theme-card" href="#/abi/mix" style="--c:var(--accent)"><h3>🎲 Mix-Quiz</h3><p>15 zufällige Aufgaben aus allen Themen – jede Runde andere.</p></a>
         <a class="card theme-card" href="#/abi/zeitstrahl" style="--c:#17707f"><h3>📅 Zeitstrahl-Profi</h3><p>Ereignisse aus allen Epochen in die richtige Reihenfolge bringen.</p></a>
         <a class="card theme-card" href="#/abi/offen" style="--c:#7b5ea7"><h3>✍️ Offene Abi-Fragen</h3><p>Nur Freitext-Aufgaben mit KI-Korrektur – Erläutern, Beurteilen, Erörtern.</p></a>
         <a class="card theme-card" href="#/abi/begriffe" style="--c:#d4a017"><h3>🃏 Alle Begriffe</h3><p>Karteikarten aus allen Themen.</p></a>
@@ -326,7 +335,7 @@
   function afterAbi(mode) {
     const box = document.getElementById('quizBox'); if (!box) return;
     const all = T().flatMap(t => t.quiz || []);
-    if (mode === 'mix') Quiz.run(box, Quiz.shuffle(all.filter(q => q.typ !== 'freitext')).slice(0, 13).concat(Quiz.shuffle(all.filter(q => q.typ === 'freitext')).slice(0, 2)), { id: 'abi-mix', shuffle: true });
+    if (mode === 'mix') Quiz.run(box, () => T().flatMap(quizPool), { id: 'abi-mix', anzahl: 15 });
     if (mode === 'offen') Quiz.run(box, Quiz.shuffle(all.filter(q => q.typ === 'freitext').concat(ZR.methoden.flatMap(m => (m.uebung || []).filter(q => q.typ === 'freitext')))).slice(0, 5), { id: 'abi-offen' });
     if (mode === 'zeitstrahl') {
       const evs = Quiz.shuffle(T().flatMap(t => (t.zeitleiste || []).filter(e => /^\d{4}$/.test(String(e.jahr).trim()))));

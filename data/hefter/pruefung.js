@@ -45,8 +45,8 @@ ZR.pruefung = {
     {
       titel: 'LB 4 · Herausforderung „Frieden"',
       punkte: [
-        { t: '1. und 2. Weltkrieg: Ursachen', thema: 'weltkriege' },
-        { t: '1. und 2. Weltkrieg: Charakter', thema: 'weltkriege' },
+        { t: '1. Weltkrieg: Ursachen und Charakter', thema: 'erster-weltkrieg' },
+        { t: '2. Weltkrieg: Ursachen und Charakter', thema: 'zweiter-weltkrieg' },
         { t: 'Versailler Vertrag – „Diktatfrieden", Gebietsabtretungen', thema: 'frieden' },
         { t: 'Potsdamer Konferenz – „Besatzungsfrieden"', thema: 'deutschland-1945-1990' },
         { t: 'Vergleich Versailles ↔ Potsdam', thema: 'deutschland-1945-1990', tab: 'schema' },

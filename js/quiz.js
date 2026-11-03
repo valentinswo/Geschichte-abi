@@ -297,9 +297,127 @@
     }
   };
 
+  /* ---------- Fragenpool: automatisch erzeugte Aufgaben ---------- */
+  const strip = s => String(s || '').replace(/\*\*/g, '').replace(/\*/g, '');
+  const yearOf = j => +(String(j).match(/\d{4}/) || [0])[0];
+  const sample = (arr, n) => shuffle(arr).slice(0, n);
+  /*
+   * Erzeugt aus Begriffen, Zeitleiste und Personen eines Themas zusätzliche Multiple-Choice-
+   * und Zeitstrahl-Aufgaben. Ablenker werden bei jedem Aufruf neu ausgelost.
+   * t = Thema, alle = alle Themen (für Ablenker), personen = alle Personen
+   */
+  function auto(t, alle, personen) {
+    const out = [];
+    const fremd = (alle || []).filter(x => x !== t);
+    // Begriffe
+    const B = t.begriffe || [], Bfremd = fremd.flatMap(x => x.begriffe || []);
+    B.forEach(b => {
+      const andere = B.filter(x => x !== b).concat(sample(Bfremd, 6));
+      if (andere.length < 3) return;
+      const ablenk = sample(andere.filter(x => x.erklaerung !== b.erklaerung), 3);
+      out.push({ typ: 'mc', auto: true, frage: `Was versteht man unter „${b.begriff}“?`, optionen: [b.erklaerung].concat(ablenk.map(x => x.erklaerung)), richtig: 0 });
+      const ab2 = sample(B.filter(x => x !== b && x.begriff !== b.begriff), 3);
+      if (ab2.length === 3 && !b.erklaerung.toLowerCase().includes(b.begriff.toLowerCase().slice(0, 6))) out.push({ typ: 'mc', auto: true, frage: `Welcher Begriff passt zu dieser Erklärung?\n„${strip(b.erklaerung)}“`, optionen: [b.begriff].concat(ab2.map(x => x.begriff)), richtig: 0 });
+    });
+    // Zeitleiste
+    const Z = (t.zeitleiste || []).filter(e => yearOf(e.jahr));
+    Z.forEach(e => {
+      const y = yearOf(e.jahr);
+      const andere = Z.filter(x => yearOf(x.jahr) !== y);
+      const jahre = [...new Set(andere.map(x => yearOf(x.jahr)))];
+      // Ablenker-Jahre: aus dem Thema, sonst benachbarte Jahre
+      let abl = sample(jahre, 3);
+      for (let d of [2, -3, 5, -1, 4]) { if (abl.length >= 3) break; if (!abl.includes(y + d)) abl.push(y + d); }
+      if (!strip(e.text).includes(String(y)) && !strip(e.text).includes(String(y).slice(2) + '/')) out.push({ typ: 'mc', auto: true, frage: `In welchem Jahr? ${strip(e.text)}`, optionen: [String(y)].concat(abl.slice(0, 3).map(String)), richtig: 0, erklaerung: `${e.jahr}: ${e.text}` });
+      const abT = sample(andere.filter(x => !x.text.includes(String(y))), 3);
+      if (abT.length === 3 && !/\d{4}/.test(strip(e.text))) out.push({ typ: 'mc', auto: true, frage: `Was geschah ${/\./.test(e.jahr) || /[a-z]/i.test(e.jahr) ? 'am/im ' + e.jahr : 'im Jahr ' + e.jahr}?`, optionen: [e.text].concat(abT.map(x => x.text)), richtig: 0 });
+    });
+    // Zeitstrahl-Runden aus der Zeitleiste
+    for (let r = 0; r < 3; r++) {
+      const used = new Set(), pick = [];
+      for (const e of shuffle(Z)) { const y = yearOf(e.jahr); if (used.has(y)) continue; used.add(y); pick.push({ text: strip(e.text), jahr: y, label: e.jahr }); if (pick.length === 5) break; }
+      if (pick.length >= 4) out.push({ typ: 'zeitstrahl', auto: true, frage: 'Bringe diese Ereignisse in die richtige zeitliche Reihenfolge.', items: pick });
+    }
+    // Personen
+    const P = (t.personen || []).map(id => (personen || []).find(p => p.id === id)).filter(Boolean);
+    const Pfremd = (personen || []).filter(p => !P.includes(p));
+    P.forEach(p => {
+      const abl = sample(P.filter(x => x !== p), 2).concat(sample(Pfremd, 3)).slice(0, 3);
+      out.push({ typ: 'mc', auto: true, frage: `Wer war das? ${strip(p.rolle)} (${p.lebensdaten})`, optionen: [p.name].concat(abl.map(x => x.name)), richtig: 0, erklaerung: strip(p.bedeutung) });
+    });
+    if (P.length >= 4) {
+      const pp = sample(P, 4);
+      out.push({ typ: 'zuordnen', auto: true, frage: 'Ordne die Personen ihrer Rolle zu.', paare: pp.map(p => [p.name, strip(p.rolle)]) });
+    }
+    return out;
+  }
+
+  /* ---------- Auswahl einer Runde ---------- */
+  const keyOf = q => (q.typ + ':' + (q.frage || q.aussage || '')).slice(0, 160);
+  function seenGet(id) { try { return JSON.parse(localStorage.getItem('zr-seen-' + id) || '[]'); } catch (e) { return []; } }
+  function seenAdd(id, qs) {
+    const prev = seenGet(id), keys = qs.map(keyOf);
+    try { localStorage.setItem('zr-seen-' + id, JSON.stringify(keys.concat(prev.filter(k => !keys.includes(k))).slice(0, 60))); } catch (e) {}
+  }
+  /* Wählt n Aufgaben: zuerst noch nicht gesehene, gemischte Aufgabentypen, viele Multiple-Choice-Fragen. */
+  function pick(pool, n, id) {
+    const seen = new Set(id ? seenGet(id) : []);
+    const fresh = arr => { const a = shuffle(arr); return a.filter(q => !seen.has(keyOf(q))).concat(a.filter(q => seen.has(keyOf(q)))); };
+    const by = f => fresh(pool.filter(f));
+    const F = by(q => q.typ === 'freitext');
+    const O = by(q => q.typ === 'zeitstrahl' || q.typ === 'reihenfolge');
+    const I = by(q => ['zuordnen', 'kategorien', 'lueckentext'].includes(q.typ));
+    const W = by(q => q.typ === 'wf');
+    const M = by(q => q.typ === 'mc' && !q.auto), MA = by(q => q.typ === 'mc' && q.auto);
+    const out = [];
+    const take = (arr, k) => { for (let i = 0; i < k && arr.length; i++) out.push(arr.shift()); };
+    take(O, 1); take(I, Math.min(2, Math.round(n / 7))); take(W, Math.round(n / 7));
+    const nMC = n - out.length - (F.length ? 1 : 0);
+    // Multiple Choice: etwa zur Hälfte eigene, zur Hälfte automatisch erzeugte Fragen
+    take(M, Math.ceil(nMC / 2)); take(MA, n - out.length - (F.length ? 1 : 0));
+    // Falls ein Typ nicht reicht, mit dem Rest auffüllen
+    const rest = fresh(pool.filter(q => !out.includes(q) && q.typ !== 'freitext'));
+    while (out.length < n - (F.length ? 1 : 0) && rest.length) out.push(rest.shift());
+    const runde = shuffle(out);
+    if (F.length) runde.push(F[0]); // offene Frage zum Schluss
+    return runde;
+  }
+
+  /* ---------- Lösung als Text (für Überblick) ---------- */
+  function loesung(q) {
+    switch (q.typ) {
+      case 'mc': return [].concat(q.richtig).map(i => md(q.optionen[i])).join(' · ');
+      case 'wf': return q.richtig ? 'Wahr' : 'Falsch';
+      case 'zeitstrahl': return q.items.slice().sort((a, b) => a.jahr - b.jahr).map(i => `${esc(i.label || i.jahr)}: ${md(i.text)}`).join(' → ');
+      case 'reihenfolge': return q.schritte.map(md).join(' → ');
+      case 'zuordnen': return q.paare.map(p => `${md(p[0])} → ${md(p[1])}`).join(' · ');
+      case 'lueckentext': return esc(q.text).replace(/\{([^}|]+)\|[^}]*\}/g, '<b>$1</b>');
+      case 'kategorien': return Object.entries(q.kategorien).map(([k, v]) => `<b>${esc(k)}:</b> ${v.map(md).join(', ')}`).join(' · ');
+      case 'freitext': return q.musterloesung ? md(q.musterloesung) : (q.erwartung || []).map(e => md(e.punkt)).join(' · ');
+    }
+    return '';
+  }
+  function ueberblickHTML(list, withScore) {
+    return `<ol class="overview">${list.map(r => {
+      const q = r.q || r, sc = r.score;
+      const cls = !withScore ? '' : r.skipped ? 'skip' : sc >= .999 ? 'ok' : sc > 0 ? 'part' : 'no';
+      const mark = !withScore ? '' : r.skipped ? '–' : sc >= .999 ? '✓' : sc > 0 ? '≈' : '✗';
+      return `<li class="${cls}">${withScore ? `<span class="ov-mark" aria-label="${cls}">${mark}</span>` : ''}<div><div class="ov-q"><span class="ov-type">${TYPE_LABEL[q.typ] || ''}</span>${md(q.frage || q.aussage || '').replace(/\n/g, '<br>')}</div>
+        ${q.typ === 'freitext' ? `<details><summary>Musterlösung</summary><p>${loesung(q)}</p></details>` : `<div class="ov-a"><b>Lösung:</b> ${loesung(q)}</div>`}
+        ${q.erklaerung && !q.auto ? `<div class="ov-e small muted">${md(q.erklaerung)}</div>` : ''}</div></li>`;
+    }).join('')}</ol>`;
+  }
+
   /* ---------- Ablauf ---------- */
+  /*
+   * questions: Liste oder Funktion, die den Fragenpool liefert (wird bei jeder Runde neu aufgerufen,
+   * damit auch die automatisch erzeugten Ablenker wechseln).
+   * opts.anzahl: Anzahl Aufgaben pro Runde (zufällig aus dem Pool). Ohne anzahl: alle Aufgaben.
+   */
   function run(container, questions, opts = {}) {
-    const qs = opts.shuffle ? shuffle(questions) : questions.slice();
+    const pool = typeof questions === 'function' ? questions() : questions;
+    const qs = opts.anzahl ? pick(pool, Math.min(opts.anzahl, pool.length), opts.id) : (opts.shuffle ? shuffle(pool) : pool.slice());
+    if (opts.anzahl && opts.id) seenAdd(opts.id, qs);
     let idx = 0, total = 0;
     const results = [];
     function show() {
@@ -308,7 +426,7 @@
       container.innerHTML = `<div class="card">
         <div class="quiz-head"><span class="small muted">Aufgabe ${idx + 1} von ${qs.length}</span><div class="quiz-progress"><i style="width:${(idx / qs.length) * 100}%"></i></div></div>
         <div class="q-type">${TYPE_LABEL[q.typ] || ''}</div>
-        <div class="q-text">${md(q.frage || q.aussage || '')}</div>
+        <div class="q-text">${md(q.frage || q.aussage || '').replace(/\n/g, '<br>')}</div>
         ${q.material ? `<blockquote class="example-box"><div class="label">Material</div>${md(q.material).replace(/\n/g, '<br>')}</blockquote>` : ''}
         <div class="q-body"></div>
         <div class="q-fb"></div>
@@ -337,11 +455,12 @@
       const pct = qs.length ? Math.round((total / qs.length) * 100) : 0;
       if (opts.id) Progress.save(opts.id, pct);
       const msg = pct >= 90 ? 'Hervorragend – abiturreif! 🎓' : pct >= 70 ? 'Sehr gut! Nur noch Feinschliff.' : pct >= 50 ? 'Solide Basis. Wiederhole die markierten Punkte.' : 'Noch nicht sicher – lies das Thema nochmal und versuch es erneut.';
-      const weak = results.filter(r => r.score < .7);
+      const nOk = results.filter(r => r.score >= .999).length;
       container.innerHTML = `<div class="card result-card"><div class="big">${pct}%</div><p><b>${msg}</b></p>
-        ${weak.length ? `<div style="text-align:left"><h3>Das solltest du wiederholen</h3><ul class="points">${weak.map(w => `<li>${md(w.q.frage || w.q.aussage)}</li>`).join('')}</ul></div>` : ''}
-        <div class="row" style="justify-content:center"><button class="btn primary" data-act="again">Nochmal (neu gemischt)</button>${opts.backHref ? `<a class="btn" href="${opts.backHref}">Zurück zum Thema</a>` : ''}</div></div>`;
-      $('[data-act=again]', container).addEventListener('click', () => run(container, questions, Object.assign({}, opts, { shuffle: true })));
+        <p class="small muted">${nOk} von ${qs.length} Aufgaben ganz richtig.${opts.anzahl ? ` Die nächste Runde stellt dir ${Math.min(opts.anzahl, pool.length)} neue Aufgaben aus einem Pool von ${pool.length}.` : ''}</p>
+        <div class="row" style="justify-content:center"><button class="btn primary" data-act="again">${opts.anzahl ? 'Neue Runde mit anderen Fragen' : 'Nochmal (neu gemischt)'}</button>${opts.backHref ? `<a class="btn" href="${opts.backHref}">Zurück zum Thema</a>` : ''}</div></div>
+        <div class="card" style="margin-top:1rem"><h3 style="margin-top:0">Überblick über alle Aufgaben dieser Runde</h3>${ueberblickHTML(results, true)}</div>`;
+      $('[data-act=again]', container).addEventListener('click', () => { run(container, questions, Object.assign({}, opts, { shuffle: true })); container.scrollIntoView({ behavior: 'smooth', block: 'start' }); });
       if (opts.onFinish) opts.onFinish(pct);
     }
     show();
@@ -373,5 +492,5 @@
     show();
   }
 
-  window.Quiz = { run, flashcards, Progress, md, esc, shuffle };
+  window.Quiz = { run, flashcards, Progress, md, esc, shuffle, auto, loesung, ueberblickHTML };
 })();
