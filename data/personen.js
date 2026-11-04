@@ -44,7 +44,7 @@
     ziele: '„Persönliches Regiment", Weltmachtstellung Deutschlands („Platz an der Sonne"), Flottenbau.',
     stationen: ['1888 Thronbesteigung („Dreikaiserjahr")', '1890 Entlassung Bismarcks, Neuer Kurs', 'Flottenbau ab 1898', '1914 Kriegseintritt', '9. November 1918 Abdankung verkündet, Exil in den Niederlanden'],
     bedeutung: 'Symbolfigur des Wilhelminismus; seine Außenpolitik trug zur Isolation Deutschlands vor 1914 bei.',
-    themen: ['nation-kaiserreich']
+    themen: ['erster-weltkrieg', 'nation-kaiserreich']
   },
   {
     id: 'wilson', name: 'Woodrow Wilson', lebensdaten: '1856–1924', geboren: '1856-12-28',
@@ -54,7 +54,7 @@
     ziele: 'Gerechter Frieden nach dem Ersten Weltkrieg (14 Punkte, Januar 1918), Gründung eines Völkerbunds.',
     stationen: ['1917 Kriegseintritt der USA', '1918 14-Punkte-Programm', '1919 Pariser Friedenskonferenz', 'US-Senat lehnt Versailler Vertrag und Völkerbund-Beitritt ab', '1919 Friedensnobelpreis'],
     bedeutung: 'Ideengeber einer neuen Weltordnung, scheiterte aber an Siegerinteressen und am eigenen Parlament.',
-    themen: ['frieden']
+    themen: ['erster-weltkrieg', 'frieden']
   },
   {
     id: 'ebert', name: 'Friedrich Ebert', lebensdaten: '1871–1925', geboren: '1871-02-04',
@@ -95,7 +95,7 @@
     ziele: 'Autoritäre Regierung ohne Sozialdemokraten, Schutz von Reichswehr und Großagrariern, Wahrung seines Ansehens.',
     stationen: ['1914 Sieg bei Tannenberg – „Held" und Mythos', 'Mitverbreiter der Dolchstoßlegende (1919)', '1925 und 1932 Wahl zum Reichspräsidenten', 'Ab 1930 Präsidialkabinette', '30. Januar 1933 Ernennung Hitlers'],
     bedeutung: 'Schlüsselfigur beim Übergang von der Demokratie zur Diktatur.',
-    themen: ['weimar']
+    themen: ['erster-weltkrieg', 'weimar']
   },
   {
     id: 'hitler', name: 'Adolf Hitler', lebensdaten: '1889–1945', geboren: '1889-04-20',
@@ -106,7 +106,7 @@
     stationen: ['1923 gescheiterter Putsch in München, Haft, *Mein Kampf*', 'Ab 1930 Massenpartei NSDAP', '30. Januar 1933 Reichskanzler', '1939 Entfesselung des Zweiten Weltkriegs', 'Hauptverantwortlicher für Holocaust und Vernichtungskrieg'],
     bedeutung: 'Hauptverantwortlicher für die NS-Verbrechen; Diktator, unter dem Millionen Menschen ermordet wurden.',
     urteil: 'Achtung: Die Geschichte des NS lässt sich nicht allein mit Hitler erklären – Strukturen, Eliten und die Mitwirkung vieler gehören zur Analyse.',
-    themen: ['ns-diktatur', 'weimar', 'frieden']
+    themen: ['zweiter-weltkrieg', 'ns-diktatur', 'weimar', 'frieden']
   },
   {
     id: 'goebbels', name: 'Joseph Goebbels', lebensdaten: '1897–1945', geboren: '1897-10-29',
@@ -157,7 +157,7 @@
     ziele: 'Krieg vermeiden, Zeit zur Aufrüstung gewinnen, berechtigte Revisionswünsche Deutschlands befriedigen.',
     stationen: ['Hauptvertreter der Appeasement-Politik', 'September 1938 Münchner Abkommen („peace for our time")', 'März 1939 Garantieerklärung für Polen', '3. September 1939 Kriegserklärung an Deutschland', '1940 Rücktritt, Nachfolger Churchill'],
     bedeutung: 'Gesicht der Appeasement-Politik – lange verurteilt, heute differenzierter gesehen.',
-    themen: ['frieden']
+    themen: ['zweiter-weltkrieg', 'frieden']
   },
   {
     id: 'stalin', name: 'Josef Stalin', lebensdaten: '1878–1953', geboren: '1878-12-18',
@@ -167,7 +167,7 @@
     ziele: 'Industrialisierung und Kollektivierung der UdSSR um jeden Preis, Sicherung der Macht, Ausdehnung des sowjetischen Einflusses.',
     stationen: ['Zwangskollektivierung und Hungersnöte (Holodomor in der Ukraine 1932/33)', '„Großer Terror" 1936–1938, GULag', '1939 Hitler-Stalin-Pakt', '1941–1945 Krieg gegen NS-Deutschland, Anti-Hitler-Koalition', 'Sowjetisierung Osteuropas, Berlin-Blockade'],
     bedeutung: 'Einer der verbrecherischsten Diktatoren des 20. Jahrhunderts; zugleich zentraler Akteur des Sieges über NS-Deutschland und des beginnenden Kalten Krieges.',
-    themen: ['kalter-krieg']
+    themen: ['zweiter-weltkrieg', 'kalter-krieg']
   },
   {
     id: 'truman', name: 'Harry S. Truman', lebensdaten: '1884–1972', geboren: '1884-05-08',
@@ -333,7 +333,7 @@
     ziele: 'Siegfrieden, totale Mobilisierung von Volk und Wirtschaft für den Krieg; nach 1918 Kampf gegen die Republik.',
     stationen: ['1914 mit Hindenburg Sieg bei Tannenberg', '1916–1918 faktische Militärdiktatur der 3. OHL', 'September 1918 Forderung nach Waffenstillstand', 'Mitverbreiter der Dolchstoßlegende', '1923 Teilnahme am Hitlerputsch'],
     bedeutung: 'Verkörperte den Anspruch des Militärs auf politische Führung und schob die Verantwortung für die Niederlage den Demokraten zu.',
-    themen: ['weltkriege', 'weimar']
+    themen: ['erster-weltkrieg', 'weimar']
   },
   {
     id: 'scheidemann', name: 'Philipp Scheidemann', lebensdaten: '1865–1939', geboren: '1865-07-26',

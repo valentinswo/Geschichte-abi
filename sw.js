@@ -3,7 +3,7 @@
  * Strategie: Netzwerk zuerst (damit neue Inhalte aus Pull Requests sofort ankommen),
  * bei fehlender Verbindung Antwort aus dem Cache.
  */
-const CACHE = 'zeitreise-v2';
+const CACHE = 'zeitreise-v3';
 const CORE = [
   './', './index.html', './css/style.css', './js/app.js', './js/quiz.js', './js/tts.js',
   './data/registry.js', './data/zeitstrahl.js', './data/personen.js', './data/methoden/methoden.js',

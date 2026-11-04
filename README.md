@@ -5,12 +5,13 @@ Interaktive Lern-Web-App für **Geschichte am Gymnasium in Sachsen, Klasse 10 bi
 ## Was drin ist
 
 - **Startseite mit orientierendem Zeitstrahl** (1789 bis heute) – Epochen führen direkt zu den Themen
-- **12 Hauptthemen mit eigenem Reiter**, orientiert am Lehrplan Gymnasium Geschichte Sachsen (2019):
+- **13 Hauptthemen mit eigenem Reiter**, oben sichtbar gruppiert nach **Klasse 10** und **Klasse 11/12**, orientiert am Lehrplan Gymnasium Geschichte Sachsen (2019):
   - Klasse 10: USA und UdSSR (Kalter Krieg) · Ost-West-Konflikt und Deutschland · Europa und Einheit
-  - Grundkurs 11/12: Industrialisierung & Soziale Frage · Vormärz und Revolution 1848/49 · Kaiserreich · Weimarer Republik · NS-Diktatur · Demokratie und Diktatur nach 1945 (DDR, MfS, Mauerbau, APO, RAF, Ostpolitik) · Weltkriege · Herausforderung „Frieden" · Geschichtskultur (Wahlbereich)
+  - Grundkurs 11/12: Industrialisierung & Soziale Frage · Vormärz und Revolution 1848/49 · Kaiserreich · Erster Weltkrieg · Weimarer Republik · NS-Diktatur · Zweiter Weltkrieg · Demokratie und Diktatur nach 1945 (DDR, MfS, Mauerbau, APO, RAF, Ostpolitik) · Herausforderung „Frieden" · Geschichtskultur (Wahlbereich)
 - Pro Thema: **Fließtext + Stichpunkte**, **Fließschemata** (Abläufe, Ursache–Folge, Vergleichstabellen), **Zeitleiste**, **Begriffe**, **Karteikarten**, **Abschluss-Quiz**
 - **Methoden & Urteilen**: Operatoren/AFB, Textquellen, **Karikaturen**, **Bildquellen**, Statistiken, **Sach- und Werturteil**, Abi-Klausur – jeweils mit Anleitung, Musterbeispiel und Übung
 - **41 Persönlichkeiten** mit Steckbrief (Lebensdaten, Ideologie, Ziele, Stationen, Bedeutung)
+- **Quiz mit großem Fragenpool:** jede Runde 12 zufällige Aufgaben (viele Multiple Choice), am Ende ein Überblick aller Aufgaben mit Lösung
 - **8 Aufgabentypen**: Multiple Choice, Wahr/Falsch, Zeitstrahl sortieren, Ablauf ordnen, Zuordnen, Lückentext, Einsortieren, offene Fragen mit **KI-Korrektur** (mit Offline-Ersatz)
 - **Inhalte aus dem eigenen Hefter** eingearbeitet (`data/hefter/`, in der App mit „📓 Hefter" markiert)
 - **Abi-Training**: Prüfungs-Checkliste, Mix-Quiz, Zeitstrahl-Profi, offene Abi-Fragen, alle Karteikarten

@@ -14,6 +14,7 @@ data/
   methoden/methoden.js   ← Karikaturen, Bildquellen, Urteilen usw.
   hefter/*.js            ← Ergänzungen aus dem eigenen Hefter (mit „📓 Hefter"-Markierung)
   hefter/pruefung.js     ← Prüfungs-Checkliste im Abi-Training
+  quiz/fragenpool.js     ← zusätzliche Quizfragen je Thema (mc/wf, erste Option = richtig)
 ```
 
 ## Text formatieren
@@ -59,6 +60,8 @@ ZR.ergaenze('weimar', {
 | `quiz` | Abschlussquiz (siehe unten) |
 
 ## Quiz-Aufgabentypen
+
+Jede Quiz-Runde zieht 12 zufällige Aufgaben aus dem Pool eines Themas: Fragen aus der Themen-Datei, aus `data/quiz/fragenpool.js` und automatisch erzeugte Fragen zu Begriffen, Jahreszahlen und Personen. Je mehr Fragen, desto abwechslungsreicher.
 
 ```js
 { typ: 'mc', frage: '…', optionen: ['A', 'B', 'C'], richtig: 0, erklaerung: '…' }        // eine richtige
